@@ -1,0 +1,32 @@
+<facilities>
+
+<facility FileExtensions=".nxs.h5,_event.nxs,.nxs,.dat,_runinfo.xml,_histo.nxs" delimiter="_" name="SNS">
+
+   <archive>
+      <archiveSearch plugin="SNSDataSearch" />
+   </archive>
+
+   <computeResource name="Fermi">
+     <baseURL>https://fermi.ornl.gov/MantidRemote</baseURL>
+   </computeResource>
+
+   <catalog name="ICat4Catalog">
+     <soapendpoint url="https://icat.sns.gov:8181/ICATService/ICAT" />
+     <externaldownload url="https://icat.sns.gov/ids/" />
+     <filelocation>
+       <prefix regex="" />
+       <windows replacement="" />
+       <linux replacement="" />
+       <mac replacement="" />
+     </filelocation>
+   </catalog>
+
+   <instrument beamline="18" name="ARCS">
+    <technique>Neutron Spectroscopy</technique>
+    <technique>TOF Direct Geometry Spectroscopy</technique>
+    <technique>Neutron Diffraction</technique>
+   </instrument>
+
+</facility>
+
+</facilities>
