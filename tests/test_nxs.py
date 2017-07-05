@@ -5,12 +5,12 @@ import os, shutil, glob
 
 class Test(unittest.TestCase):
 
-    def test(self):
-        from mantid2mcvine import nxs
+    def test_create_template(self):
+        from mantid2mcvine.nxs import template
         idf = 'instrument_xml/MCVINETEST_Definition.xml'
         ntotpixels = 1024
         outpath = 'template.nxs'
-        nxs.create_template(idf, ntotpixels, outpath, workdir='work')
+        template.create(idf, ntotpixels, outpath, workdir='work')
         return
 
 

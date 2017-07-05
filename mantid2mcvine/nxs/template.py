@@ -1,7 +1,7 @@
 
 import os, shutil, numpy as np, h5py
 
-def create_template(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667.):
+def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667.):
     thisdir = os.path.dirname(__file__)
     start = os.path.join(thisdir, 'start.nxs')
     # step 1
