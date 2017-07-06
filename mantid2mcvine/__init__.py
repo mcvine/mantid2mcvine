@@ -3,11 +3,14 @@ import os
 from .instrument_xml.Bootstrap_mantid_idf import units
 from instrument.geometry import shapes
 
-class tube_info:
-    pressure = 10.*units.pressure.atm
-    radius = .5 * units.length.inch
-    gap = 0.08 * units.length.inch
-    
+class TubeInfo:
+
+    def __init__(self, pressure=None, radius=None, gap=None):
+        self.pressure = pressure if pressure is not None else 10.*units.pressure.atm
+        self.radius = radius if radius is not None else .5 * units.length.inch
+        self.gap = gap if gap is not None else 0.08 * units.length.inch
+        return
+
 
 class InstrumentModel:
 
