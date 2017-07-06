@@ -31,3 +31,5 @@ Convert simulated neutrons to simulated nxs file:
 events = im.neutrons2events('scattered-neutrons', nodes=20)
 simnxs = im.events2nxs(events, 'sim.nxs')
 ```
+
+For more details, see [demo](notebooks/demo.ipynb)
