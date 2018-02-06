@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mcvine/mantid2mcvine.svg?branch=master)](https://travis-ci.org/mcvine/mantid2mcvine)
+
 # Convert Mantid IDF to MCViNE instrument xml
 
 ```
