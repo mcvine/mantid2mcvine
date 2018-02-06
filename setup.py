@@ -14,6 +14,7 @@ setup(
     version = version_ns['__version__'],
     packages = find_packages(".", exclude=['tests', 'notebooks', 'demo']),
     package_dir = {'': "."},
+    data_files = [('mantid2mcvine/nxs', ['mantid2mcvine/nxs/start.nxs'])],
     test_suite = 'tests',
     install_requires = [
     ],
