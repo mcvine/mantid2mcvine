@@ -1,3 +1,5 @@
+from ._version import __version__
+
 import os
 
 from .instrument_xml.Bootstrap_mantid_idf import units
