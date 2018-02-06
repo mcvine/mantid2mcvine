@@ -1,0 +1,45 @@
+sudo: false
+# dist: trusty
+
+language: python
+
+python:
+  - 2.7
+
+branches:
+  only:
+    - master
+
+env:
+   
+before_install:
+  - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh; fi
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b -p /home/travis/mc
+  - export PATH=/home/travis/mc/bin:$PATH
+  - mkdir -p $HOME/.mantid
+  - echo "default.facility=SNS" > $HOME/.mantid/Mantid.user.properties
+
+install:
+  - export GIT_FULL_HASH=`git rev-parse HEAD`
+  - conda config --set always_yes true
+  - conda update conda
+  - conda config --add channels conda-forge
+  - conda create -n testenv pip pytest pytest-cov python=$TRAVIS_PYTHON_VERSION
+  - conda install -n testenv numpy 
+  - conda install -n testenv -c mcvine mcvine
+  - conda install -n testenv -c mantid mantid-framework
+  - source activate testenv
+  - python setup.py install
+  - pip install coveralls
+
+script:
+   - travis_wait 60 py.test --cov=mantid2mcvine tests
+
+after_success:
+   - coveralls
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
