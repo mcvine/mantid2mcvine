@@ -6,6 +6,7 @@ import os
 class Test(unittest.TestCase):
 
     def test_create_template(self):
+        here = os.path.dirname(__file__)
         from mantid2mcvine.instrument_xml.Bootstrap_mantid_idf import InstrumentFactory as IF, units
         factory = IF()
         from instrument.geometry import shapes
@@ -15,10 +16,11 @@ class Test(unittest.TestCase):
             radius = .5 * units.length.inch
             gap = 0.08 * units.length.inch
         factory.construct(
-            name='mantid', idfpath="instrument_xml/MCVINETEST_Definition.xml",
+            name='mantid', idfpath=os.path.join(here, "instrument_xml/xxxxMCVINETESTxxxx_Definition.xml"),
             ds_shape = detsys_shape, tube_info=tube_info,
-            xmloutput='mcvine.xml')
+            xmloutput=os.path.join(here, 'mcvine.xml')
+        )
         return
 
 if __name__ =='__main__': unittest.main()
-    
+
