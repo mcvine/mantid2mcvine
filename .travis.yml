@@ -30,7 +30,7 @@ install:
   - conda install -n testenv -c mcvine mcvine
   - conda install -n testenv -c mantid mantid-framework
   - source activate testenv
-  - python -c "import matplotlib; import mantid"
+  - git clone https://github.com/yxqd/dotmantid ~/.mantid
   - python -c "import matplotlib; import mantid"
   - python setup.py install
   - pip install coveralls
