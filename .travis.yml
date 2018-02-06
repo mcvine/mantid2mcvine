@@ -17,8 +17,7 @@ before_install:
   - chmod +x miniconda.sh
   - ./miniconda.sh -b -p /home/travis/mc
   - export PATH=/home/travis/mc/bin:$PATH
-  - mkdir -p $HOME/.mantid
-  - echo "default.facility=SNS" > $HOME/.mantid/Mantid.user.properties
+  - git clone https://github.com/yxqd/dotmantid ~/.mantid
 
 install:
   - export GIT_FULL_HASH=`git rev-parse HEAD`
@@ -30,7 +29,6 @@ install:
   - conda install -n testenv -c mcvine mcvine
   - conda install -n testenv -c mantid mantid-framework
   - source activate testenv
-  - git clone https://github.com/yxqd/dotmantid ~/.mantid
   - python -c "import matplotlib; import mantid"
   - python setup.py install
   - pip install coveralls
