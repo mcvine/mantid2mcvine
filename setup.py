@@ -16,7 +16,6 @@ setup(
     package_dir = {'': "."},
     test_suite = 'tests',
     install_requires = [
-        'mcvine',
     ],
     dependency_links = [
     ],
