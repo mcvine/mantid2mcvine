@@ -25,6 +25,7 @@ class InstrumentModel:
             npixelspertube = 128,
             nmonitors = 1,
             tofbinsize = 0.1,
+            mantid_idf_row_typename_postfix = None,
     ):
         self.instrument_name = instrument_name
         self.beamline = beamline
@@ -38,14 +39,12 @@ class InstrumentModel:
         self.npixelspertube = npixelspertube
         self.nmonitors = nmonitors
         self.tofbinsize = tofbinsize
+        self.mantid_idf_row_typename_postfix = mantid_idf_row_typename_postfix
         return
     
     def convert(self):
         ntotpixels = self.nbanks*self.ntubesperpack*self.npixelspertube
         # print ntotpixels
-        # install mantid idf
-        from . import instrument_xml
-        instrument_xml.install_mantid_xml_to_userhome(self.mantid_idf, beamline=self.beamline)
         # create mcvine idf
         from .instrument_xml.Bootstrap_mantid_idf import InstrumentFactory as IF
         factory = IF()
@@ -54,10 +53,14 @@ class InstrumentModel:
         instrument, geometer = factory.construct(
             name=self.instrument_name, idfpath=self.mantid_idf,
             ds_shape = self.detsys_shape, tube_info=self.tube_info,
-            xmloutput=self.mcvine_idf)
+            xmloutput=self.mcvine_idf,
+            mantid_idf_row_typename_postfix=self.mantid_idf_row_typename_postfix)
         # create template nxs file
         from .nxs import template
         template.create(self.mantid_idf, ntotpixels, self.template_nxs, workdir='template_nxs_work')
+        # install mantid idf
+        from . import instrument_xml
+        instrument_xml.install_mantid_xml_to_userhome(self.mantid_idf, beamline=self.beamline)
         return
 
 

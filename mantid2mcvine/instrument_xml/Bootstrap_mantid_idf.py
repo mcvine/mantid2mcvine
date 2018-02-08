@@ -36,7 +36,9 @@ class InstrumentFactory(base):
     def construct( 
             self, name, idfpath,
             ds_shape, tube_info,
-            xmloutput = None ):
+            xmloutput = None,
+            mantid_idf_row_typename_postfix = None
+    ):
         
         # default output file
         if not xmloutput:
@@ -47,14 +49,14 @@ class InstrumentFactory(base):
 
         # get packs from nexus file
         self.tube_info = tube_info
-        packs = self._readPacks(idfpath)
+        packs = self._readPacks(idfpath, mantid_idf_row_typename_postfix or 'detectors')
         return super(InstrumentFactory, self).construct(
             name, ds_shape, packs, xmloutput=xmloutput)
 
 
-    def _readPacks(self, idfpath):
+    def _readPacks(self, idfpath, mantid_idf_row_typename_postfix=None):
         from instrument.mantid import parse_file
-        inst = parse_file(idfpath, rowtypename='detectors')
+        inst = parse_file(idfpath, rowtypename=mantid_idf_row_typename_postfix)
         
         import operator as op
         rows = inst.detectors
@@ -106,7 +108,10 @@ def getTubeLength(eightpack_type):
 def getTubePositions(eightpack_type):
     tube = eightpack_type.components[0]
     locations = tube.getChildren('location')
-    xyz = [map(float, (loc['x'], loc['y'], loc['z'])) for loc in locations]
+    def _get(loc, a):
+        try: return loc[a]
+        except KeyError: return 0.
+    xyz = [map(float, (_get(loc, 'x'), _get(loc, 'y'), _get(loc, 'z'))) for loc in locations]
     return np.array(xyz)
 
 
