@@ -119,12 +119,12 @@ class InstrumentModel:
         return
 
     
-    def neutrons2events(self, scattered_neutrons, nodes=10, workdir='n2e'):
+    def neutrons2events(self, scattered_neutrons, nodes=10, workdir='n2e', **kwds):
         from .nxs import Neutrons2Events
         n2e = Neutrons2Events.Neutrons2Events(
                 instrument_xml=self.mcvine_idf,
                 tofbinsize=self.tofbinsize)
-        n2e.run(scattered_neutrons, workdir, nodes)
+        n2e.run(scattered_neutrons, workdir, nodes, **kwds)
         return os.path.join(workdir, 'out', 'events.dat')
 
 
