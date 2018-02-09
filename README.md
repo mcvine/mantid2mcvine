@@ -2,6 +2,9 @@
 
 # Convert Mantid IDF to MCViNE instrument xml
 
+First make sure the instrument name in the filename matches the "name" attribute of the "instrument" tag
+in the IDF file.
+
 ```
 import mantid2mcvine as m2m
 ```
