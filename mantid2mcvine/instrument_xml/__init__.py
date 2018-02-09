@@ -6,6 +6,8 @@ class DefinitionExists(Exception): pass
 class BeamlineOccupied(Exception): pass
 
 def install_mantid_xml_to_userhome(mantid_xml, beamline=99, mantid_instr_dir=None):
+    # NOTE: it seems mantid_instr_dir has to be ~/.mantid.
+    # NOTE: setting it to $PREFIX/instrument does not work. the facilities.xml under ~/.mantid has higher priority
     assert mantid_xml.endswith('.xml')
     fn_base = os.path.basename(mantid_xml)
     if "_Definition" not in mantid_xml:
