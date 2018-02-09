@@ -18,15 +18,49 @@ class InstrumentModel:
 
     def __init__(
             self,
-            instrument_name, beamline, mantid_idf, mcvine_idf, template_nxs,
-            detsys_shape, tube_info,
+            instrument_name='myinstrument', beamline=9999999999,
+            mantid_idf="myinstrument_Definition.xml",
+            mcvine_idf='myinstrument_mcvine.xml', template_nxs ='myinstrument_template.nxs',
+            detsys_shape=None, tube_info=None,
             nbanks = 1,
             ntubesperpack = 8,
             npixelspertube = 128,
-            nmonitors = 1,
+            nmonitors = None,
             tofbinsize = 0.1,
             mantid_idf_row_typename_postfix = None,
     ):
+        """Instrument model data object
+
+        Parameters:
+        -----------
+        instrument_name : str
+            name of the instrument. should be consistent with the instrument name in the input mantid IDF filename
+
+        beamline: int
+            beamline number
+
+        mantid_idf: str
+            input mantid IDF path
+
+        mcvine_idf: str
+            output mcvine IDF path
+
+        template_nxs: str
+            output NXS template file path
+
+        detsys_shape: object
+            instrument.geometry.shapes.{Shape} instance
+
+        tube_info: object
+            TubeInfo instance
+
+        nbanks: int
+            total number of banks
+
+        mantid_idf_row_typename_postfix: str
+            This postfix string is used to search for all detector rows in the mantid IDF xml file.
+            default is "detectors". For ARCS and SEQUOIA, it should be "row".
+        """
         self.instrument_name = instrument_name
         self.beamline = beamline
         self.mantid_idf = mantid_idf
@@ -55,6 +89,15 @@ class InstrumentModel:
             ds_shape = self.detsys_shape, tube_info=self.tube_info,
             xmloutput=self.mcvine_idf,
             mantid_idf_row_typename_postfix=self.mantid_idf_row_typename_postfix)
+        # check number of monitors
+        nmonitors = len(factory.parsed_instrument.monitor_locations)
+        if self.nmonitors is not None:
+            if self.nmonitors != nmonitors:
+                import warnings
+                warnings.warn("Number of monitors (%s) supplied is not consistent with number of monitors (%s) in IDF %s" % (
+                    self.nmonitors, nmonitors, self.mantid_idf))
+        else:
+            self.nmonitors = nmonitors
         # create template nxs file
         from .nxs import template
         template.create(self.mantid_idf, ntotpixels, self.template_nxs, workdir='template_nxs_work')
@@ -81,3 +124,12 @@ class InstrumentModel:
             nxs_template=self.template_nxs)
         e2nxs.run(eventfile=events_dat, nxsfile=sim_nxs, tofbinsize=self.tofbinsize)
         return sim_nxs
+
+
+    def todict(self):
+        keys = "instrument_name beamline mantid_idf mcvine_idf template_nxs nbanks ntubesperpack"
+        keys += " npixelspertube nmonitors tofbinsize"
+        keys = keys.split()
+        d = dict()
+        for k in keys: d[k] = getattr(self, k)
+        return d
