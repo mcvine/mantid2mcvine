@@ -56,7 +56,7 @@ class InstrumentFactory(base):
 
     def _readPacks(self, idfpath, mantid_idf_row_typename_postfix=None):
         from instrument.mantid import parse_file
-        inst = parse_file(idfpath, rowtypename=mantid_idf_row_typename_postfix)
+        self.parsed_instrument = inst = parse_file(idfpath, rowtypename=mantid_idf_row_typename_postfix)
         
         import operator as op
         rows = inst.detectors
