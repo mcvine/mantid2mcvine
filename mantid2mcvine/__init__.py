@@ -101,12 +101,24 @@ class InstrumentModel:
         # create template nxs file
         from .nxs import template
         template.create(self.mantid_idf, ntotpixels, self.template_nxs, workdir='template_nxs_work')
-        # install mantid idf
-        from . import instrument_xml
-        instrument_xml.install_mantid_xml_to_userhome(self.mantid_idf, beamline=self.beamline)
         return
 
 
+    def mantid_install(self, target=None):
+        """install mantid IDF and adjust facilities.xml
+
+        Parameters:
+        -----------
+        target : str
+            if target is None, changes are made to user home directory.
+            if target is a path, it must be the "instrument" directory where instrument IDFs are
+        """
+        # install mantid idf
+        from . import instrument_xml
+        instrument_xml.install_mantid_xml_to_userhome(self.mantid_idf, beamline=self.beamline, mantid_instr_dir=target)
+        return
+
+    
     def neutrons2events(self, scattered_neutrons, nodes=10, workdir='n2e'):
         from .nxs import Neutrons2Events
         n2e = Neutrons2Events.Neutrons2Events(

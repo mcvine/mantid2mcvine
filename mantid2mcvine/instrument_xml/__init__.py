@@ -5,7 +5,7 @@ import os, shutil, warnings, glob
 class DefinitionExists(Exception): pass
 class BeamlineOccupied(Exception): pass
 
-def install_mantid_xml_to_userhome(mantid_xml, beamline=99):
+def install_mantid_xml_to_userhome(mantid_xml, beamline=99, mantid_instr_dir=None):
     assert mantid_xml.endswith('.xml')
     fn_base = os.path.basename(mantid_xml)
     if "_Definition" not in mantid_xml:
@@ -16,7 +16,7 @@ def install_mantid_xml_to_userhome(mantid_xml, beamline=99):
     root = tree.getroot()
     instrument_name = root.attrib['name']
     # Facilities.xml
-    mantid_instr_dir = os.path.expanduser("~/.mantid/instrument")
+    mantid_instr_dir = mantid_instr_dir or os.path.expanduser("~/.mantid/instrument")
     assert os.path.exists(mantid_instr_dir)
     # check IDF file
     dest = os.path.join(mantid_instr_dir, fn_base)
