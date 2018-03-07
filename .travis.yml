@@ -24,10 +24,12 @@ install:
   - conda config --set always_yes true
   - conda update conda
   - conda config --add channels conda-forge
+  - conda config --add channels mantid
+  - conda config --add channels mcvine
   - conda create -n testenv pip pytest pytest-cov python=$TRAVIS_PYTHON_VERSION
-  - conda install -n testenv numpy 
-  - conda install -n testenv -c mcvine mcvine
-  - conda install -n testenv -c mantid mantid-framework
+#  - conda install -n testenv numpy 
+  - conda install -n testenv -c mcvine/label/unstable mcvine-core
+  - conda install -n testenv mantid-framework
   - source activate testenv
   - python -c "import matplotlib; import mantid"
   - python setup.py install
