@@ -22,8 +22,11 @@ class Test(unittest.TestCase):
             xmloutput=out,
         )
         text = open(out).read()
-        expected = open(os.path.join(here, 'expected/mcvine.xml')).read()
-        self.assertEqual(text[:len(expected)], expected)
+        expected = os.path.join(here, 'expected/mcvine.xml')
+        N = len(open(expected).read())
+        out2 = os.path.join(here, 'mcvine.xml.truncated')
+        open(out2, 'wt').write(text[:N])
+        self.assert_(not os.system("diff %s %s" % (out2, expected)))
         return
 
 if __name__ =='__main__': unittest.main()
