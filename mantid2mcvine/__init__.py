@@ -28,6 +28,7 @@ class InstrumentModel:
             nmonitors = None,
             tofbinsize = 0.1,
             mantid_idf_row_typename_postfix = None,
+            mantid_idf_monitor_tag = None,
     ):
         """Instrument model data object
 
@@ -60,6 +61,8 @@ class InstrumentModel:
         mantid_idf_row_typename_postfix: str
             This postfix string is used to search for all detector rows in the mantid IDF xml file.
             default is "detectors". For ARCS and SEQUOIA, it should be "row".
+
+        mantid_idf_monitor_tag: str
         """
         self.instrument_name = instrument_name
         self.beamline = beamline
@@ -74,6 +77,7 @@ class InstrumentModel:
         self.nmonitors = nmonitors
         self.tofbinsize = tofbinsize
         self.mantid_idf_row_typename_postfix = mantid_idf_row_typename_postfix
+        self.mantid_idf_monitor_tag = mantid_idf_monitor_tag
         return
     
     def convert(self):
@@ -88,7 +92,9 @@ class InstrumentModel:
             name=self.instrument_name, idfpath=self.mantid_idf,
             ds_shape = self.detsys_shape, tube_info=self.tube_info,
             xmloutput=self.mcvine_idf,
-            mantid_idf_row_typename_postfix=self.mantid_idf_row_typename_postfix)
+            mantid_idf_row_typename_postfix=self.mantid_idf_row_typename_postfix,
+            mantid_idf_monitor_tag=self.mantid_idf_monitor_tag,
+        )
         # check number of monitors
         nmonitors = len(factory.parsed_instrument.monitor_locations)
         if self.nmonitors is not None:

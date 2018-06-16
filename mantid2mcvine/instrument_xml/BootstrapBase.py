@@ -3,10 +3,16 @@
 #                                   Jiao Lin
 #
 
+"""
+This piece of code create a graph of instrument elements for a dgs instrument.
+It is modified from ..CNCS.BootstrapBase.
 
-## This piece of code create a graph of instrument elements for a dgs instrument.
-## modified from ..CNCS.BootstrapBase
+The detector system is assumed to consist of packs. 
+Each pack contains some detector tubes.
+The tubes do not have to form a flat structure in a pack.
 
+This is a base class to be extended.
+"""
 
 import numpy as np
 from instrument.factories.CNCS.BootstrapBase import InstrumentFactory as base, PackInfo, units, elements, geometers, shapes, packType, pixelSolidAngle, m, mm, atm
@@ -14,6 +20,7 @@ from instrument.factories.CNCS.BootstrapBase import InstrumentFactory as base, P
 class PackInfo:
 
     id = None
+    shape = None
     position = None # unit: mm
     orientation = None # unit: degree
     pressure = None # unit: atm
@@ -26,7 +33,9 @@ class PackInfo:
 
 
 def packType(packinfo):
-    return packinfo.pressure, packinfo.ntubes, packinfo.tubelength, packinfo.tuberadius, packinfo.tubegap, packinfo.npixelspertube, packinfo.tube_positions
+    """return the signature of the detector pack. packs with the same signature are identical, but could differ in position and orientation
+    """
+    return packinfo.typename, packinfo.pressure, packinfo.ntubes, packinfo.tubelength, packinfo.tuberadius, packinfo.tubegap, packinfo.npixelspertube, packinfo.tube_positions
 
 
 class InstrumentFactory( base ):
@@ -166,13 +175,15 @@ Parameters:
             pack = cache.get(packtype)
             
             if pack is None:
-                pressure, ntubes, height, radius, gap, npixels, tube_positions = \
-                    packtype
+                # typename, pressure, ntubes, height, radius, gap, npixels, tube_positions = \
+                #    packtype
 
-                pack = cache[packtype] = self._makePack(
+                pack = cache[packtype] = self._makePack(name, packID, instrument, packinfo)
+                """
                     name, packID, instrument,
                     pressure*atm, npixels, radius*mm, height*mm, gap*mm,
                     (np.array(tube_positions), mm))
+                """
                 
             else:
                 copy = elements.copy(
@@ -191,10 +202,6 @@ Parameters:
         return # detArray # instrument, geometer
 
     
-    # XXX: need more thoughts here
-    # 180 degree is an artifact of current limitation of simulation
-    # package.
-    # tube_orientation = (0, 180, 0) 
     tube_orientation = (0, 0, 0)
     def _makePack(self, name, id, instrument,
                   pressure, npixels, radius, height, gap,
@@ -222,6 +229,33 @@ all physical parameters must have units attached.
         for i in range(1,ntubes):
             det = elements.copy( 'det%s' % i, det0.guid(),
                                  guid = instrument.getUniqueID() )
+            pack.addElement( det )
+            packGeometer.register( det, tube_positions[i]*unit, self.tube_orientation)
+            continue
+        return pack
+    
+    
+    def _makePack(self, name, id, instrument, packinfo):
+        '''make a unique N-pack
+        
+all physical parameters must have units attached.
+'''
+        pack = elements.detectorPack(
+            name, shape = packinfo.shape, guid = instrument.getUniqueID(), id = id )
+        packGeometer = geometers.geometer( pack, registry_coordinate_system='McStas' )
+        self.local_geometers.append( packGeometer )
+
+        # XXX this is not generic enough. tubes could be different in a pack
+        det0 = self._makeDetector(
+            'det0', 0, instrument, packinfo.pressure*atm, packinfo.npixelspertube, packinfo.tuberadius*mm, packinfo.tubelength*mm)
+        pack.addElement( det0 )
+        
+        # unwrapping
+        tube_positions = np.array(packinfo.tube_positions); unit=mm
+        ntubes = tube_positions.shape[0]
+        packGeometer.register( det0, tube_positions[0]*unit, self.tube_orientation)
+        for i in range(1,ntubes):
+            det = elements.copy( 'det%s' % i, det0.guid(), guid = instrument.getUniqueID() )
             pack.addElement( det )
             packGeometer.register( det, tube_positions[i]*unit, self.tube_orientation)
             continue

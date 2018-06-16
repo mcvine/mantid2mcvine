@@ -9,6 +9,8 @@ Compose an instrument from mantid IDF xml file.
 This implementation only uses the detector packs information
 from mantid IDF. 
 
+This is a base class.
+
 XXX: should consider reading other information like moderator
 XXX: and monitors from IDF as well.
 
@@ -22,7 +24,7 @@ XXX: coordinate system is now hard coded.
 
 import numpy as np
 
-from BootstrapBase import InstrumentFactory as base, PackInfo, units
+from .BootstrapBase import InstrumentFactory as base, PackInfo, units
 
 # example tube_info
 class TubeInfo:
@@ -35,9 +37,10 @@ class InstrumentFactory(base):
     
     def construct( 
             self, name, idfpath,
-            ds_shape, tube_info,
+            ds_shape,
             xmloutput = None,
-            mantid_idf_row_typename_postfix = None
+            mantid_idf_row_typename_postfix = None,
+            mantid_idf_monitor_tag = None,
     ):
         
         # default output file
@@ -48,89 +51,20 @@ class InstrumentFactory(base):
             xmloutput = '%s-danse.xml' % (fn,)
 
         # get packs from nexus file
-        self.tube_info = tube_info
-        packs = self._readPacks(idfpath, mantid_idf_row_typename_postfix or 'detectors')
+        packs = self._readPacks(
+            idfpath,
+            mantid_idf_row_typename_postfix or 'detectors',
+            mantid_idf_monitor_tag or 'monitors')
         return super(InstrumentFactory, self).construct(
             name, ds_shape, packs, xmloutput=xmloutput)
 
 
-    def _readPacks(self, idfpath, mantid_idf_row_typename_postfix=None):
-        from instrument.mantid import parse_file
-        self.parsed_instrument = inst = parse_file(idfpath, rowtypename=mantid_idf_row_typename_postfix)
-        
-        import operator as op
-        rows = inst.detectors
-        getpacks = lambda row: row.getType().components
-        packs = [getpacks(row) for row in rows]
-        packs = reduce(op.add, packs)
-        
-        for pkno, pkinfo in enumerate(packs):
-            
-            eightpack = pkinfo.getType().components[0]
-            eightpack_type = eightpack.getType()
-            ntubes = getNTubes(eightpack_type)
-            npixels = getNPixelsPerTube(eightpack_type)
-            position, orientation = getPositionAndOrientation(eightpack)
-            tubelen = getTubeLength(eightpack_type)
-            tube_positions = getTubePositions(eightpack_type)
-            
-            pack = PackInfo()
-            pack.id = pkno
-            pack.position = position 
-            pack.orientation = orientation
-            pack.ntubes = ntubes
-            pack.npixelspertube = npixels
-            pack.tubelength = tubelen * 1000
-            
-            pack.pressure = self.tube_info.pressure / units.pressure.atm
-            pack.tuberadius = self.tube_info.radius / units.length.mm
-            pack.tubegap = self.tube_info.gap / units.length.mm
-            
-            tp = tube_positions*1000
-            pack.tube_positions = tuple([ tuple(a) for a in tp ])
-            yield pack
-            continue
-        
-        return
+    def _readPacks(self, idfpath, mantid_idf_row_typename_postfix=None, mantid_idf_monitor_tag=None):
+        raise NotImplementedError("_readPacks")
+    
 
-
-def getTubeLength(eightpack_type):
-    tube = eightpack_type.components[0]
-    tube_type = tube.getType()
-    pixels = tube_type.components[0]
-    locations = pixels.getChildren('location')
-    y0 = float(locations[0].y)
-    y_1 = float(locations[-1].y)
-    n = len(locations)
-    return (y_1-y0)/(n-1)*n
-
-
-def getTubePositions(eightpack_type):
-    tube = eightpack_type.components[0]
-    locations = tube.getChildren('location')
-    def _get(loc, a):
-        try: return loc[a]
-        except KeyError: return 0.
-    xyz = [map(float, (_get(loc, 'x'), _get(loc, 'y'), _get(loc, 'z'))) for loc in locations]
-    return np.array(xyz)
-
-
-def getNTubes(eightpack_type):
-    tube = eightpack_type.components[0]
-    locations = tube.getChildren('location')
-    return len(locations)
-
-
-def getNPixelsPerTube(eightpack_type):
-    tubes = eightpack_type.components[0]
-    tube_type = tubes.getType()
-    pixels = tube_type.components[0]
-    locations = pixels.getChildren('location')
-    return len(locations)
-
-
-def getPositionAndOrientation(eightpack):
-    location = eightpack.getChildren('location')[0]
+def getPositionAndOrientation(component):
+    location = component.getChildren('location')[0]
     x = float(location.x); y = float(location.y); z = float(location.z)
     # pos = x,y,z
     # unit: mm
