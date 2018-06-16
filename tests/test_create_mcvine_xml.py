@@ -15,11 +15,15 @@ class Test(unittest.TestCase):
             pressure = 10.*units.pressure.atm
             radius = .5 * units.length.inch
             gap = 0.08 * units.length.inch
+        out = os.path.join(here, 'mcvine.xml')
         factory.construct(
             name='mantid', idfpath=os.path.join(here, "instrument_xml/xxxxMCVINETESTxxxx_Definition.xml"),
             ds_shape = detsys_shape, tube_info=tube_info,
-            xmloutput=os.path.join(here, 'mcvine.xml')
+            xmloutput=out,
         )
+        text = open(out).read()
+        expected = open(os.path.join(here, 'expected/mcvine.xml')).read()
+        self.assertEqual(text[:len(expected)], expected)
         return
 
 if __name__ =='__main__': unittest.main()
