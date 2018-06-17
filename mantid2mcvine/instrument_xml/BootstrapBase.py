@@ -25,7 +25,6 @@ class PackInfo:
     position = None # unit: mm
     orientation = None # unit: degree
     ntubes = None
-    tube_positions = None # unit: mm
     tubes = None # should be a list of TubeInfo instances
 
 class TubeInfo:
@@ -35,6 +34,8 @@ class TubeInfo:
     radius = None # unit: mm
     gap = None # unit: mm
     npixels = None
+    position = None # unit: mm
+    orientation = None # unit: degree
 
 
 def packType(packinfo):
@@ -206,7 +207,6 @@ Parameters:
         return # detArray # instrument, geometer
 
     
-    tube_orientation = (0, 0, 0)
     def _makePack(self, name, id, instrument, packinfo):
         '''make a unique N-pack
         
@@ -218,8 +218,6 @@ all physical parameters must have units attached.
         self.local_geometers.append( packGeometer )
 
         cache = {}
-        tube_positions = np.array(packinfo.tube_positions); unit=mm
-        ntubes = tube_positions.shape[0]; assert packinfo.ntubes == ntubes
         for i, tubeinfo in enumerate(packinfo.tubes):
             tubetype = tubeType(tubeinfo)
             tube = cache.get(tubetype)
@@ -234,7 +232,7 @@ all physical parameters must have units attached.
                     tubename, tube.guid(), guid = instrument.getUniqueID())
                 tube = copy
             pack.addElement(tube)
-            packGeometer.register( tube, tube_positions[i]*unit, self.tube_orientation)
+            packGeometer.register( tube, tubeinfo.position, tubeinfo.orientation)
             continue
         return pack
     

@@ -9,7 +9,7 @@ Compose an instrument from mantid IDF xml file for a SNS DGS instrument.
 This inherits from Bootstrap_mantid_idf.
 """
 
-import numpy as np
+import numpy as np, copy
 
 from .Bootstrap_mantid_idf import InstrumentFactory as base, getPositionAndOrientation, units, shapes, PackInfo, TubeInfo
 units_parser = units.parser()
@@ -76,10 +76,14 @@ class InstrumentFactory(base):
             tubeinfo.gap = units_parser.parse(tubes.values()[0]['tube_thickness'])*2/units.length.mm
             tubeinfo.length = tubelength
             tubeinfo.npixels = npixels
-            pack.tubes = [tubeinfo for i in range(ntubes)]
-            # tube positions
+            # list of tubes
+            tubeinfos = []
             tp = tube_positions*1000
-            pack.tube_positions = tuple([ tuple(a) for a in tp ])
+            for i in range(ntubes):
+                _ = copy.copy(tubeinfo)
+                _.position = tuple(tp[i]*units.length.mm); _.orientation = (0., 0., 0.)
+                tubeinfos.append(_)
+            pack.tubes = tubeinfos
             # create pack shape
             from .flatpack_size import getSize
             mm = units.length.mm
