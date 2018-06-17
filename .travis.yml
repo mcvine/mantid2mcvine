@@ -27,12 +27,13 @@ install:
   - conda config --add channels mantid
   - conda config --add channels mcvine
   - conda create -n testenv pip pytest pytest-cov python=$TRAVIS_PYTHON_VERSION
-#  - conda install -n testenv numpy 
-  - conda install -n testenv mpich
-  - conda install -n testenv -c mcvine/label/unstable mcvine-core
-  - conda install -n testenv mantid-framework
   - source activate testenv
+#  - conda install -n testenv numpy 
+  - conda install mpich
+  - conda install -c mcvine/label/unstable mcvine-core
+  - conda install mantid-framework
   - python -c "import matplotlib; import mantid"
+  - mcvine
   - python setup.py install
   - pip install coveralls
 
