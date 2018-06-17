@@ -11,10 +11,6 @@ class Test(unittest.TestCase):
         factory = IF()
         from instrument.geometry import shapes
         detsys_shape = shapes.hollowCylinder(in_radius=2., out_radius=3., height=3.)
-        class tube_info:
-            pressure = 10.*units.pressure.atm
-            radius = .5 * units.length.inch
-            gap = 0.08 * units.length.inch
         out = os.path.join(here, 'mcvine.xml')
         factory.construct(
             name='mantid', idfpath=os.path.join(here, "instrument_xml/xxxxMCVINETESTxxxx_Definition.xml"),
