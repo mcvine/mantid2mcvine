@@ -11,8 +11,7 @@ This inherits from Bootstrap_mantid_idf.
 
 import numpy as np
 
-from .Bootstrap_mantid_idf import InstrumentFactory as base, getPositionAndOrientation, units, PackInfo
-from .BootstrapBase import shapes
+from .Bootstrap_mantid_idf import InstrumentFactory as base, getPositionAndOrientation, units, shapes, PackInfo, TubeInfo
 units_parser = units.parser()
 units_parser.context.update(metre=units.length.meter)
 
@@ -36,9 +35,10 @@ class InstrumentFactory(base):
         
         for pkno, pkinfo in enumerate(packs):
             # pkinfo: instance of instrument.mantid.component
-            typename = pkinfo.type
             pack_comp = pkinfo.getType().components[0]  # wrapper of mantid IDF pack <component> tag
             pack_type = pack_comp.getType()             # wrapper of mantid IDF pack <type> tag
+            typename = pack_type.name
+            tubetypename = getTubeTypename(pack_type)
             ntubes = getNTubes(pack_type)
             npixels = getNPixelsPerTube(pack_type)
             position, orientation = getPositionAndOrientation(pack_comp)
@@ -51,8 +51,7 @@ class InstrumentFactory(base):
             pack.position = position 
             pack.orientation = orientation
             pack.ntubes = ntubes
-            pack.npixelspertube = npixels
-            pack.tubelength = tubelen * 1000
+            tubelength = tubelen * 1000
 
             tubes, pixels = getTubeParameters(inst)
             # tubes and pixels are info extracted from mantid xml
@@ -69,10 +68,15 @@ class InstrumentFactory(base):
             # same radius
             # pixels:
             # {'pixel': {'radius': 12.7, 'height': 11.719}}
-            pack.pressure = units_parser.parse(tubes.values()[0]['tube_pressure'])/units.pressure.atm
-            pack.tuberadius = pixels.values()[0]['radius']
+            tubeinfo = TubeInfo()
+            tubeinfo.typename = tubetypename
+            tubeinfo.pressure = units_parser.parse(tubes.values()[0]['tube_pressure'])/units.pressure.atm
+            tubeinfo.radius = pixels.values()[0]['radius']
             # gap is used to compute pack size only
-            pack.tubegap = units_parser.parse(tubes.values()[0]['tube_thickness'])*2/units.length.mm
+            tubeinfo.gap = units_parser.parse(tubes.values()[0]['tube_thickness'])*2/units.length.mm
+            tubeinfo.length = tubelength
+            tubeinfo.npixels = npixels
+            pack.tubes = [tubeinfo for i in range(ntubes)]
             # tube positions
             tp = tube_positions*1000
             pack.tube_positions = tuple([ tuple(a) for a in tp ])
@@ -80,7 +84,8 @@ class InstrumentFactory(base):
             from .flatpack_size import getSize
             mm = units.length.mm
             pack.shape = shapes.block(**getSize(
-                pack.tuberadius*mm, pack.tubelength*mm, pack.tubegap*mm, (tp, units.length.mm)))
+                pack.tubes[0].radius*mm, pack.tubes[0].length*mm, pack.tubes[0].gap*mm,
+                (tp, units.length.mm)))
             yield pack
             continue
         
@@ -128,6 +133,10 @@ In <type is="detector" name="pixel*"> we can obtain radius and height
         continue
     return tubes, pixels
 
+
+def getTubeTypename(pack_type):
+    tube = pack_type.components[0]
+    return tube.type
 
 def getTubeLength(pack_type):
     tube = pack_type.components[0]

@@ -24,7 +24,7 @@ XXX: coordinate system is now hard coded.
 
 import numpy as np
 
-from .BootstrapBase import InstrumentFactory as base, PackInfo, units
+from .BootstrapBase import InstrumentFactory as base, units, shapes, PackInfo, TubeInfo
 
 # example tube_info
 class TubeInfo:

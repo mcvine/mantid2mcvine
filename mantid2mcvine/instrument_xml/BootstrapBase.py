@@ -19,23 +19,35 @@ from instrument.factories.CNCS.BootstrapBase import InstrumentFactory as base, P
 
 class PackInfo:
 
+    typename = None
     id = None
     shape = None
     position = None # unit: mm
     orientation = None # unit: degree
-    pressure = None # unit: atm
     ntubes = None
-    tubelength = None # unit: mm
-    tuberadius = None # unit: mm
-    tubegap = None # unit: mm
-    npixelspertube = None
     tube_positions = None # unit: mm
+    tubes = None # should be a list of TubeInfo instances
+
+class TubeInfo:
+    typename = None
+    pressure = None # unit: atm
+    length = None # unit: mm
+    radius = None # unit: mm
+    gap = None # unit: mm
+    npixels = None
 
 
 def packType(packinfo):
     """return the signature of the detector pack. packs with the same signature are identical, but could differ in position and orientation
     """
-    return packinfo.typename, packinfo.pressure, packinfo.ntubes, packinfo.tubelength, packinfo.tuberadius, packinfo.tubegap, packinfo.npixelspertube, packinfo.tube_positions
+    # this implementation relies on a unique typename
+    # this is possible, because in Mantid IDF different packs can have
+    # different type names.
+    # be careful in coding the subclasses.
+    return packinfo.typename
+
+def tubeType(tubeinfo):
+    return tubeinfo.typename
 
 
 class InstrumentFactory( base ):
@@ -175,16 +187,8 @@ Parameters:
             pack = cache.get(packtype)
             
             if pack is None:
-                # typename, pressure, ntubes, height, radius, gap, npixels, tube_positions = \
-                #    packtype
-
                 pack = cache[packtype] = self._makePack(name, packID, instrument, packinfo)
-                """
-                    name, packID, instrument,
-                    pressure*atm, npixels, radius*mm, height*mm, gap*mm,
-                    (np.array(tube_positions), mm))
-                """
-                
+
             else:
                 copy = elements.copy(
                     'pack%s' % packID, pack.guid(),
@@ -213,19 +217,24 @@ all physical parameters must have units attached.
         packGeometer = geometers.geometer( pack, registry_coordinate_system='McStas' )
         self.local_geometers.append( packGeometer )
 
-        # XXX this is not generic enough. tubes could be different in a pack
-        det0 = self._makeDetector(
-            'det0', 0, instrument, packinfo.pressure*atm, packinfo.npixelspertube, packinfo.tuberadius*mm, packinfo.tubelength*mm)
-        pack.addElement( det0 )
-        
-        # unwrapping
+        cache = {}
         tube_positions = np.array(packinfo.tube_positions); unit=mm
-        ntubes = tube_positions.shape[0]
-        packGeometer.register( det0, tube_positions[0]*unit, self.tube_orientation)
-        for i in range(1,ntubes):
-            det = elements.copy( 'det%s' % i, det0.guid(), guid = instrument.getUniqueID() )
-            pack.addElement( det )
-            packGeometer.register( det, tube_positions[i]*unit, self.tube_orientation)
+        ntubes = tube_positions.shape[0]; assert packinfo.ntubes == ntubes
+        for i, tubeinfo in enumerate(packinfo.tubes):
+            tubetype = tubeType(tubeinfo)
+            tube = cache.get(tubetype)
+            tubename = 'det%s' % i
+            if tube is None:
+                tube = cache[tubetype] = self._makeDetector(
+                    tubename, i,
+                    instrument,
+                    tubeinfo.pressure*atm, tubeinfo.npixels, tubeinfo.radius*mm, tubeinfo.length*mm)
+            else:
+                copy = elements.copy(
+                    tubename, tube.guid(), guid = instrument.getUniqueID())
+                tube = copy
+            pack.addElement(tube)
+            packGeometer.register( tube, tube_positions[i]*unit, self.tube_orientation)
             continue
         return pack
     
