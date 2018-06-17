@@ -28,6 +28,7 @@ install:
   - conda config --add channels mcvine
   - conda create -n testenv pip pytest pytest-cov python=$TRAVIS_PYTHON_VERSION
 #  - conda install -n testenv numpy 
+  - conda install -n testenv mpich
   - conda install -n testenv -c mcvine/label/unstable mcvine-core
   - conda install -n testenv mantid-framework
   - source activate testenv
