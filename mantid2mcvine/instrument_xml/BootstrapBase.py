@@ -203,38 +203,6 @@ Parameters:
 
     
     tube_orientation = (0, 0, 0)
-    def _makePack(self, name, id, instrument,
-                  pressure, npixels, radius, height, gap,
-                  tube_positions):
-        '''make a unique N-pack
-        
-all physical parameters must have units attached.
-'''
-        from packSize import getSize
-        size = getSize( radius, height, gap, tube_positions)
-        shape = shapes.block( **size )
-        pack = elements.detectorPack(
-            name, shape = shape, guid = instrument.getUniqueID(), id = id )
-        packGeometer = geometers.geometer( pack, registry_coordinate_system='McStas' )
-        self.local_geometers.append( packGeometer )
-        
-        det0 = self._makeDetector(
-            'det0', 0, instrument, pressure, npixels, radius, height )
-        pack.addElement( det0 )
-        
-        # unwrapping
-        tube_positions, unit = tube_positions
-        ntubes = tube_positions.shape[0]
-        packGeometer.register( det0, tube_positions[0]*unit, self.tube_orientation)
-        for i in range(1,ntubes):
-            det = elements.copy( 'det%s' % i, det0.guid(),
-                                 guid = instrument.getUniqueID() )
-            pack.addElement( det )
-            packGeometer.register( det, tube_positions[i]*unit, self.tube_orientation)
-            continue
-        return pack
-    
-    
     def _makePack(self, name, id, instrument, packinfo):
         '''make a unique N-pack
         
