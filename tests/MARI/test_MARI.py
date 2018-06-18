@@ -4,11 +4,13 @@ import os
 import mantid2mcvine as m2m
 import instrument.geometry.operations
 
+here = os.path.dirname(__file__)  or  '.'
+
 instrument_name = 'MARI_virtual'
 beamline =  997
-mantid_idf = os.path.abspath('./MARI_virtual_Definition.xml')
-mcvine_idf = os.path.abspath('MARI_mcvine.xml')
-template_nxs = os.path.abspath('MARI_template.nxs')
+mantid_idf = os.path.abspath(os.path.join(here, 'MARI_virtual_Definition.xml'))
+mcvine_idf = os.path.abspath(os.path.join(here, 'MARI_mcvine.xml'))
+template_nxs = os.path.abspath(os.path.join(here, 'MARI_template.nxs'))
 
 cyl = m2m.shapes.hollowCylinder(in_radius=3.5, out_radius=4.5, height=1.6) # meters
 detsys_shape = instrument.geometry.operations.rotate(cyl, angle=90., beam=1)
@@ -24,7 +26,6 @@ import os
 class Test(unittest.TestCase):
 
     def test_create_template(self):
-        here = os.path.dirname(__file__)
         from mantid2mcvine.instrument_xml.Bootstrap_mantid_idf_MARI import InstrumentFactory as IF, units
         factory = IF()
         from instrument.geometry import shapes
