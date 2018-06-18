@@ -175,7 +175,7 @@ Parameters:
         
         from numpy import array
         
-        cache = {}
+        cache = {}; self.ntotpixels = 0
         for packinfo in packs:
             
             rotation = packinfo.orientation
@@ -233,6 +233,7 @@ all physical parameters must have units attached.
                 tube = copy
             pack.addElement(tube)
             packGeometer.register( tube, tubeinfo.position, tubeinfo.orientation)
+            self.ntotpixels += tubeinfo.npixels
             continue
         return pack
     

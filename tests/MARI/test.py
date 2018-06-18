@@ -10,19 +10,12 @@ mantid_idf = os.path.abspath('./MARI_virtual_Definition.xml')
 mcvine_idf = os.path.abspath('MARI_mcvine.xml')
 template_nxs = os.path.abspath('MARI_template.nxs')
 
-cyl = m2m.shapes.hollowCylinder(in_radius=3., out_radius=5., height=3.) # meters
-detsys_shape = instrument.geometry.operations.rotate(cyl, axis=(1,0,0), angle=90.)
+cyl = m2m.shapes.hollowCylinder(in_radius=3.5, out_radius=4.5, height=1.6) # meters
+detsys_shape = instrument.geometry.operations.rotate(cyl, angle=90., beam=1)
 nbanks = 1
 ntubesperpack = 8
 npixelspertube = 128
 nmonitors = 1
-
-tube_info = m2m.TubeInfo(
-    pressure = 10.*m2m.units.pressure.atm,
-    radius = .5 * m2m.units.length.inch,
-    gap = 0.08 * m2m.units.length.inch,
-)
-
 tofbinsize = 0.1 # mus
 
 import unittest
@@ -50,19 +43,17 @@ class Test(unittest.TestCase):
         self.assert_(xml_equal(out, expected))
         return
 
-    def _test(self):
+    def test(self):
+        from mantid2mcvine.instrument_xml import Bootstrap_mantid_idf_MARI
         im = m2m.InstrumentModel(
             instrument_name, beamline, mantid_idf, mcvine_idf, template_nxs,
-            detsys_shape, tube_info,
-            nbanks = nbanks,
-            ntubesperpack = ntubesperpack,
-            npixelspertube = npixelspertube,
+            detsys_shape,
             nmonitors = nmonitors,
             tofbinsize = tofbinsize,
             mantid_idf_row_typename_postfix = 'bank',
             mantid_idf_monitor_tag = 'monitor',
+            instrument_factory = Bootstrap_mantid_idf_MARI.InstrumentFactory
         )
-
         im.convert()
         # im.mantid_install() # install mantid IDF to ~/.mantid
         return

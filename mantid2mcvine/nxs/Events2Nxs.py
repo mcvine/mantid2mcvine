@@ -19,14 +19,11 @@ class Event2Nxs:
     def __init__(
             self,
             nxs_template,
-            nbanks = 163, ntubesperpack = 8, npixelspertube = 128,
+            npixels = 163*8*128,
             nmonitors = 2,
     ):
         self.nxs_template = nxs_template
-        self.nbanks = nbanks
-        self.ntubesperpack = ntubesperpack
-        self.npixelspertube = npixelspertube
-        self.npixels = nbanks*ntubesperpack*npixelspertube
+        self.npixels = npixels
         self.nmonitors = nmonitors
         return
 

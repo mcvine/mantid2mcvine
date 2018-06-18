@@ -21,14 +21,12 @@ class InstrumentModel:
             instrument_name='myinstrument', beamline=9999999999,
             mantid_idf="myinstrument_Definition.xml",
             mcvine_idf='myinstrument_mcvine.xml', template_nxs ='myinstrument_template.nxs',
-            detsys_shape=None, tube_info=None,
-            nbanks = 1,
-            ntubesperpack = 8,
-            npixelspertube = 128,
+            detsys_shape=None,
             nmonitors = None,
             tofbinsize = 0.1,
             mantid_idf_row_typename_postfix = None,
             mantid_idf_monitor_tag = None,
+            instrument_factory = None,
     ):
         """Instrument model data object
 
@@ -52,17 +50,13 @@ class InstrumentModel:
         detsys_shape: object
             instrument.geometry.shapes.{Shape} instance
 
-        tube_info: object
-            TubeInfo instance
-
-        nbanks: int
-            total number of banks
-
         mantid_idf_row_typename_postfix: str
             This postfix string is used to search for all detector rows in the mantid IDF xml file.
             default is "detectors". For ARCS and SEQUOIA, it should be "row".
 
         mantid_idf_monitor_tag: str
+
+        instrument_factory: instrument factory
         """
         self.instrument_name = instrument_name
         self.beamline = beamline
@@ -70,31 +64,28 @@ class InstrumentModel:
         self.mcvine_idf = mcvine_idf
         self.template_nxs = template_nxs
         self.detsys_shape = detsys_shape
-        self.tube_info = tube_info
-        self.nbanks = nbanks
-        self.ntubesperpack = ntubesperpack
-        self.npixelspertube = npixelspertube
         self.nmonitors = nmonitors
         self.tofbinsize = tofbinsize
         self.mantid_idf_row_typename_postfix = mantid_idf_row_typename_postfix
         self.mantid_idf_monitor_tag = mantid_idf_monitor_tag
+        from .instrument_xml.Bootstrap_mantid_idf_SNS_DGS import InstrumentFactory as default_IF
+        self.instrument_factory = instrument_factory or default_IF
         return
     
     def convert(self):
-        ntotpixels = self.nbanks*self.ntubesperpack*self.npixelspertube
         # print ntotpixels
         # create mcvine idf
-        from .instrument_xml.Bootstrap_mantid_idf import InstrumentFactory as IF
-        factory = IF()
+        factory = self.instrument_factory()
         from instrument.geometry import shapes
         #   detsys_shape = shapes.hollowCylinder(in_radius=2., out_radius=3., height=3.)
         instrument, geometer = factory.construct(
             name=self.instrument_name, idfpath=self.mantid_idf,
-            ds_shape = self.detsys_shape, tube_info=self.tube_info,
+            ds_shape = self.detsys_shape,
             xmloutput=self.mcvine_idf,
             mantid_idf_row_typename_postfix=self.mantid_idf_row_typename_postfix,
             mantid_idf_monitor_tag=self.mantid_idf_monitor_tag,
         )
+        self.ntotpixels = ntotpixels = factory.ntotpixels
         # check number of monitors
         nmonitors = len(factory.parsed_instrument.monitor_locations)
         if self.nmonitors is not None:
@@ -137,16 +128,16 @@ class InstrumentModel:
     def events2nxs(self, events_dat, sim_nxs):
         from .nxs import Events2Nxs
         e2nxs = Events2Nxs.Event2Nxs(
-            nbanks=self.nbanks, npixelspertube=self.npixelspertube,
-            ntubesperpack=self.ntubesperpack, nmonitors=self.nmonitors,
+            npixels = self.ntotpixels,
+            nmonitors=self.nmonitors,
             nxs_template=self.template_nxs)
         e2nxs.run(eventfile=events_dat, nxsfile=sim_nxs, tofbinsize=self.tofbinsize)
         return sim_nxs
 
 
     def todict(self):
-        keys = "instrument_name beamline mantid_idf mcvine_idf template_nxs nbanks ntubesperpack"
-        keys += " npixelspertube nmonitors tofbinsize"
+        keys = "instrument_name beamline mantid_idf mcvine_idf template_nxs"
+        keys += " nmonitors tofbinsize"
         keys = keys.split()
         d = dict()
         for k in keys: d[k] = getattr(self, k)
