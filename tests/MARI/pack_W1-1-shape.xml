@@ -1,0 +1,54 @@
+<geometry>
+  <rotation>
+                <translation>
+                    <intersection>
+                        <difference>
+                            <!--
+                            Cylinder
+
+  Its axis is vertical.
+
+  Attributes:
+    - radius
+    - height
+  
+                            -->
+                            <cylinder height="0.315*m" radius="4.0201*m"/>
+                            <!--
+                            Cylinder
+
+  Its axis is vertical.
+
+  Attributes:
+    - radius
+    - height
+  
+                            -->
+                            <cylinder height="0.615*m" radius="3.99385*m"/>
+                        </difference>
+                        <rotation>
+                            <rotation>
+                                <!--
+                                Pyramid
+
+  Its tip is at origin and is point upward.
+
+  Its height is its vertical length (parallel to gravity).
+
+  Its base is a rectangle resting on a horizontal plane.
+  
+                                -->
+                                <pyramid thickness="0.33075*m" width="1.42591*m" height="4.82412*m"/>
+                                <angle>-90.*deg</angle>
+                                <axis beam="0.0" transversal="1.0" vertical="0.0" />
+                            </rotation>
+                            <angle>20.776137298*deg</angle>
+                            <axis beam="0.0" transversal="0.0" vertical="1.0" />
+                        </rotation>
+                    </intersection>
+                    <vector beam="0.*m" transversal="0.*m" vertical="0.347362*m" />
+                </translation>
+                <angle>-90.0*deg</angle>
+                <axis beam="1.0" transversal="0.0" vertical="0.0" />
+            </rotation>
+</geometry>
