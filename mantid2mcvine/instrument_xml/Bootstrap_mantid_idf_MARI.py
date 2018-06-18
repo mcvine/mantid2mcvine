@@ -9,7 +9,7 @@ Compose an instrument from mantid IDF xml file for a SNS DGS instrument.
 This inherits from Bootstrap_mantid_idf.
 """
 
-import numpy as np, copy
+import numpy as np, copy, warnings
 
 from .Bootstrap_mantid_idf import InstrumentFactory as base, getPositionAndOrientation, units, PackInfo, TubeInfo
 from instrument.geometry import shapes, operations
@@ -49,7 +49,7 @@ class InstrumentFactory(base):
             # pkinfo: instance of instrument.mantid.component
             pack_type = pkinfo.getType()
             typename = pack_type.name
-            if typename != 'W1-1': continue
+            # if typename != 'W1-1': continue
             comps = pack_type.getChildren('component') # instance of instance.mantid.component
             # tubeinfo list for this pack
             tubeinfos = []
@@ -134,11 +134,16 @@ def computePackShape(pack):
     centers = np.array([np.dot(rotmat, tube.position) for tube in pack.tubes])
     center_ys = [c[1] for c in centers]
     center_y = np.mean(center_ys)
-    for y1 in center_ys: assert(abs(y1-center_y)<0.0005)
+    for y1 in center_ys:
+        if abs(y1-center_y)>0.0005:
+            import warnings
+            warnings.warn("In pack %s, this center_y=%s, average center_y=%s" % (pack.typename, y1, center_y))
     # radius of the hollow cyl
     radii = (centers[:, 0] **2 + centers[:, 2]**2)**.5
     radius = np.mean(radii)
-    for r in radii: assert(abs(radius-r)<0.0005)
+    for r in radii:
+        if abs(radius-r)>0.0005:
+            warnings.warn("In pack %s, this radius=%s, average radius=%s" % (pack.typename, r, radius))
     # in and out radius
     in_radius = radius - max_tube_r * 1.05
     out_radius = radius + max_tube_r * 1.05
