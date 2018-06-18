@@ -45,9 +45,9 @@ class Test(unittest.TestCase):
             mantid_idf_row_typename_postfix = 'bank',
             mantid_idf_monitor_tag = 'monitor',
         )
-        # expected = os.path.join(here, 'expected/mcvine.xml')
-        # from mantid2mcvine.testutils import xml_equal
-        # self.assert_(xml_equal(out, expected))
+        expected = os.path.join(here, 'expected/MARI_mcvine.xml')
+        from mantid2mcvine.testutils import xml_equal
+        self.assert_(xml_equal(out, expected))
         return
 
     def _test(self):
