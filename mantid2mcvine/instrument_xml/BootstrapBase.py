@@ -182,7 +182,7 @@ Parameters:
             translation = tuple(array( packinfo.position )*mm)
             
             packID = packinfo.id
-            name = 'pack%s' % packID
+            name = 'pack%s-%s' % (packID, packinfo.typename)
             
             packtype = packType(packinfo)
             pack = cache.get(packtype)

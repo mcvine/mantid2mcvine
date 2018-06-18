@@ -37,7 +37,7 @@
         <hollowCylinder in_radius="2.0" out_radius="3.0" height="3.0"/>
         </Shape>
 
-        <DetectorPack guid="3" name="pack0" id="0">
+        <DetectorPack guid="3" name="pack0-eightpack" id="0">
             <Shape>
             <!--
             Block
@@ -50,7 +50,7 @@
   Its width is the 3rd dimension.
   
             -->
-	    <block width="0.182959*m" height="1.5075*m" thickness="0.0687541*m"/>
+            <block thickness="0.0687541*m" width="0.182959*m" height="1.5075*m" />
             </Shape>
 
             <Detector name="det0" pressure="1.01325e+06*m**-1*kg*s**-2" holdOff="1e-06*s" deadTime="1e-05*s" guid="4" type="He3 LPSD" id="0">
@@ -363,7 +363,7 @@
         </DetectorPack>
 
         <LocalGeometer registry-coordinate-system="McStas">
-            <Register name="pack0" position="(0.087176*m, 0*m, 2.494*m)" orientation="(0.0, 2.0, 0.0)"/>
+            <Register name="pack0-eightpack" position="(0.087176*m, 0*m, 2.494*m)" orientation="(0.0, 2.0, 0.0)"/>
         </LocalGeometer>
     </DetectorSystem>
 
@@ -377,3 +377,7 @@
 
 <!-- version-->
 <!-- $Id$-->
+
+<!-- Generated automatically by Renderer on Mon Jun 18 08:40:25 2018-->
+
+<!-- End of file -->
