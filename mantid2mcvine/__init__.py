@@ -27,6 +27,8 @@ class InstrumentModel:
             mantid_idf_row_typename_postfix = None,
             mantid_idf_monitor_tag = None,
             instrument_factory = None,
+            ntotpixels = None,
+            nbanks = None, ntubesperpack=None, npixelspertube=None,
     ):
         """Instrument model data object
 
@@ -57,6 +59,10 @@ class InstrumentModel:
         mantid_idf_monitor_tag: str
 
         instrument_factory: instrument factory
+
+        ntotpixels: total number of pixels
+
+        nbanks, ntubesperpack, npixelspertube: for backward compatibility. used to compute ntotpixels
         """
         self.instrument_name = instrument_name
         self.beamline = beamline
@@ -70,6 +76,10 @@ class InstrumentModel:
         self.mantid_idf_monitor_tag = mantid_idf_monitor_tag
         from .instrument_xml.Bootstrap_mantid_idf_SNS_DGS import InstrumentFactory as default_IF
         self.instrument_factory = instrument_factory or default_IF
+        self.ntotpixels = ntotpixels
+        # backward compatibility
+        if nbanks is not None and ntotpixels is None:
+            self.ntotpixels = nbanks*ntubesperpack*npixelspertube
         return
     
     def convert(self):
@@ -136,7 +146,7 @@ class InstrumentModel:
 
 
     def todict(self):
-        keys = "instrument_name beamline mantid_idf mcvine_idf template_nxs"
+        keys = "instrument_name beamline mantid_idf mcvine_idf template_nxs ntotpixels"
         keys += " nmonitors tofbinsize"
         keys = keys.split()
         d = dict()
