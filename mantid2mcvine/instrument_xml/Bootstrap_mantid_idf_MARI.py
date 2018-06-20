@@ -65,7 +65,8 @@ class InstrumentFactory(base):
                 geom_info = getTubeGeomInfo(tube_type)
                 tubeinfo.radius = geom_info['radius']
                 tubeinfo.length = geom_info['height']
-                tubeinfo.npixels = 1 # not pixellated
+                # tubeinfo.npixels = 1 # not pixellated
+                tubeinfo.npixels = 2   # mcvine does not support single pixel
                 # this comp have multiple locations
                 for loc in comp.getChildren('location'):
                     _ = copy.copy(tubeinfo)
