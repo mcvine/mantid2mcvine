@@ -189,15 +189,16 @@ Parameters:
             
             if pack is None:
                 pack = cache[packtype] = self._makePack(name, packID, instrument, packinfo)
-
+                
             else:
                 copy = elements.copy(
                     'pack%s' % packID, pack.guid(),
                     id = packID,
                     guid = instrument.getUniqueID() )
+                copy.npixels = pack.npixels
                 pack = copy
                 pass
-            
+            self.ntotpixels += pack.npixels
             detSystem.addElement( pack )
             detSystemGeometer.register(
                 pack, translation, rotation )
@@ -218,6 +219,7 @@ all physical parameters must have units attached.
         self.local_geometers.append( packGeometer )
 
         cache = {}
+        npixels = 0
         for i, tubeinfo in enumerate(packinfo.tubes):
             tubetype = tubeType(tubeinfo)
             tube = cache.get(tubetype)
@@ -233,8 +235,9 @@ all physical parameters must have units attached.
                 tube = copy
             pack.addElement(tube)
             packGeometer.register( tube, tubeinfo.position, tubeinfo.orientation)
-            self.ntotpixels += tubeinfo.npixels
+            npixels += tubeinfo.npixels
             continue
+        pack.npixels = npixels
         return pack
     
     
