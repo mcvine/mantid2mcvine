@@ -30,8 +30,8 @@ install:
   - conda create -n testenv pip pytest pytest-cov python=$TRAVIS_PYTHON_VERSION
   - source activate testenv
 #  - conda install -n testenv numpy 
-  - conda install -n testenv mpich
-  - conda install -n testenv -c mcvine/label/unstable mcvine-core
+  - conda install mpich
+  - conda install -c mcvine/label/unstable mcvine-core
   - conda install -c mcvine/label/unstable mantid-framework=3.10
   - python -c "import matplotlib; import mantid"
   - mcvine

@@ -9,23 +9,27 @@ def xml_equal(p1, p2):
 def xmltree_equal_elements(e1, e2):
     """compare two xml element tree e1 and e2 are roots of two trees
     """
+    res = True
     if e1.tag != e2.tag:
         print "tag: %r != %r" % (e1.tag, e2.tag)
-        return False
+        res = False
     _strip = lambda v: (v or '').strip() # deal with None
     if _strip(e1.text) != _strip(e2.text):
         print "text: %r != %r" % (e1.text, e2.text)
-        return False
+        res = False
     if _strip(e1.tail) != _strip(e2.tail):
         print "tail: %r != %r" % (e1.tail, e2.tail)
-        return False
+        res = False
     if e1.attrib != e2.attrib:
         print "attrib: %r != %r" % (e1.attrib, e2.attrib)
-        return False
+        res = False
     if len(e1) != len(e2):
         print "len: %r != %r" % (len(e1), len(e2))
-        return False
-    return all(xmltree_equal_elements(c1, c2) for c1, c2 in zip(e1, e2))
+        res = False
+    for c1, c2 in zip(e1, e2):
+        if not xmltree_equal_elements(c1, c2):
+            res = False
+    return res
 
 
 def load_xmltree_root(path):

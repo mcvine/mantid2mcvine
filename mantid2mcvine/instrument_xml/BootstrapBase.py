@@ -3,30 +3,52 @@
 #                                   Jiao Lin
 #
 
+"""
+This piece of code create a graph of instrument elements for a dgs instrument.
+It is modified from ..CNCS.BootstrapBase.
 
-## This piece of code create a graph of instrument elements for a dgs instrument.
-## modified from ..CNCS.BootstrapBase
+The detector system is assumed to consist of packs. 
+Each pack contains some detector tubes.
+The tubes do not have to form a flat structure in a pack.
 
+This is a base class to be extended.
+"""
 
 import numpy as np
 from instrument.factories.CNCS.BootstrapBase import InstrumentFactory as base, PackInfo, units, elements, geometers, shapes, packType, pixelSolidAngle, m, mm, atm
 
 class PackInfo:
 
+    typename = None
     id = None
+    shape = None
     position = None # unit: mm
     orientation = None # unit: degree
-    pressure = None # unit: atm
     ntubes = None
-    tubelength = None # unit: mm
-    tuberadius = None # unit: mm
-    tubegap = None # unit: mm
-    npixelspertube = None
-    tube_positions = None # unit: mm
+    tubes = None # should be a list of TubeInfo instances
+
+class TubeInfo:
+    typename = None
+    pressure = None # unit: atm
+    length = None # unit: mm
+    radius = None # unit: mm
+    gap = None # unit: mm
+    npixels = None
+    position = None # unit: mm
+    orientation = None # unit: degree
 
 
 def packType(packinfo):
-    return packinfo.pressure, packinfo.ntubes, packinfo.tubelength, packinfo.tuberadius, packinfo.tubegap, packinfo.npixelspertube, packinfo.tube_positions
+    """return the signature of the detector pack. packs with the same signature are identical, but could differ in position and orientation
+    """
+    # this implementation relies on a unique typename
+    # this is possible, because in Mantid IDF different packs can have
+    # different type names.
+    # be careful in coding the subclasses.
+    return packinfo.typename
+
+def tubeType(tubeinfo):
+    return tubeinfo.typename
 
 
 class InstrumentFactory( base ):
@@ -153,35 +175,30 @@ Parameters:
         
         from numpy import array
         
-        cache = {}
+        cache = {}; self.ntotpixels = 0
         for packinfo in packs:
             
             rotation = packinfo.orientation
             translation = tuple(array( packinfo.position )*mm)
             
             packID = packinfo.id
-            name = 'pack%s' % packID
+            name = 'pack%s-%s' % (packID, packinfo.typename)
             
             packtype = packType(packinfo)
             pack = cache.get(packtype)
             
             if pack is None:
-                pressure, ntubes, height, radius, gap, npixels, tube_positions = \
-                    packtype
-
-                pack = cache[packtype] = self._makePack(
-                    name, packID, instrument,
-                    pressure*atm, npixels, radius*mm, height*mm, gap*mm,
-                    (np.array(tube_positions), mm))
+                pack = cache[packtype] = self._makePack(name, packID, instrument, packinfo)
                 
             else:
                 copy = elements.copy(
                     'pack%s' % packID, pack.guid(),
                     id = packID,
                     guid = instrument.getUniqueID() )
+                copy.npixels = pack.npixels
                 pack = copy
                 pass
-            
+            self.ntotpixels += pack.npixels
             detSystem.addElement( pack )
             detSystemGeometer.register(
                 pack, translation, rotation )
@@ -191,40 +208,36 @@ Parameters:
         return # detArray # instrument, geometer
 
     
-    # XXX: need more thoughts here
-    # 180 degree is an artifact of current limitation of simulation
-    # package.
-    # tube_orientation = (0, 180, 0) 
-    tube_orientation = (0, 0, 0)
-    def _makePack(self, name, id, instrument,
-                  pressure, npixels, radius, height, gap,
-                  tube_positions):
+    def _makePack(self, name, id, instrument, packinfo):
         '''make a unique N-pack
         
 all physical parameters must have units attached.
 '''
-        from packSize import getSize
-        size = getSize( radius, height, gap, tube_positions)
-        shape = shapes.block( **size )
         pack = elements.detectorPack(
-            name, shape = shape, guid = instrument.getUniqueID(), id = id )
+            name, shape = packinfo.shape, guid = instrument.getUniqueID(), id = id )
         packGeometer = geometers.geometer( pack, registry_coordinate_system='McStas' )
         self.local_geometers.append( packGeometer )
-        
-        det0 = self._makeDetector(
-            'det0', 0, instrument, pressure, npixels, radius, height )
-        pack.addElement( det0 )
-        
-        # unwrapping
-        tube_positions, unit = tube_positions
-        ntubes = tube_positions.shape[0]
-        packGeometer.register( det0, tube_positions[0]*unit, self.tube_orientation)
-        for i in range(1,ntubes):
-            det = elements.copy( 'det%s' % i, det0.guid(),
-                                 guid = instrument.getUniqueID() )
-            pack.addElement( det )
-            packGeometer.register( det, tube_positions[i]*unit, self.tube_orientation)
+
+        cache = {}
+        npixels = 0
+        for i, tubeinfo in enumerate(packinfo.tubes):
+            tubetype = tubeType(tubeinfo)
+            tube = cache.get(tubetype)
+            tubename = 'det%s' % i
+            if tube is None:
+                tube = cache[tubetype] = self._makeDetector(
+                    tubename, i,
+                    instrument,
+                    tubeinfo.pressure*atm, tubeinfo.npixels, tubeinfo.radius*mm, tubeinfo.length*mm)
+            else:
+                copy = elements.copy(
+                    tubename, tube.guid(), guid = instrument.getUniqueID())
+                tube = copy
+            pack.addElement(tube)
+            packGeometer.register( tube, tubeinfo.position, tubeinfo.orientation)
+            npixels += tubeinfo.npixels
             continue
+        pack.npixels = npixels
         return pack
     
     

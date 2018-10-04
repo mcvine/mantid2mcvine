@@ -1,0 +1,24 @@
+<geometry>
+  <rotation>
+    <translation>
+      <intersection>
+        <difference>
+          <cylinder height="0.315*m" radius="4.03512*m"/>
+          <cylinder height="0.63*m" radius="4.00888*m"/>
+        </difference>
+        <rotation>
+          <rotation>
+            <pyramid thickness="0.33075*m" width="0.612148*m" height="4.84215*m"/>
+            <angle>-90.*deg</angle>
+            <axis beam="0.0" transversal="1.0" vertical="0.0" />
+          </rotation>
+          <angle>9.645*deg</angle>
+          <axis beam="0.0" transversal="0.0" vertical="1.0" />
+        </rotation>
+      </intersection>
+      <vector beam="0.*m" transversal="0.*m" vertical="-6.93889e-18*m" />
+    </translation>
+    <angle>45.0*deg</angle>
+    <axis beam="1.0" transversal="0.0" vertical="0.0" />
+  </rotation>
+</geometry>
