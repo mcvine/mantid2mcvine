@@ -32,7 +32,7 @@ install:
 #  - conda install -n testenv numpy 
   - conda install mpich
   - conda install -c mcvine/label/unstable mcvine-core
-  - conda install -c mcvine/label/unstable mantid-framework=3.10
+  - conda install -c mcvine/label/unstable mantid-framework=3.10 muparser=2.2.5=0
   - python -c "import matplotlib; import mantid"
   - mcvine
   - python setup.py install
