@@ -8,7 +8,7 @@ conda config --add channels conda-forge
 conda config --add channels diffpy
 conda config --add channels mantid
 conda config --add channels mcvine
-conda create -n testenv pip pytest pytest-cov python=$TRAVIS_PYTHON_VERSION
+conda create -n testenv pip pytest pytest-cov coveralls python=$TRAVIS_PYTHON_VERSION
 source activate testenv
 #conda install -n testenv numpy 
 conda install mpich
@@ -17,4 +17,3 @@ conda install -c mcvine/label/unstable mantid-framework=3.13 muparser=2.2.5=0
 python -c "import matplotlib; import mantid"
 mcvine
 python setup.py install
-pip install coveralls
