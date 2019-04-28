@@ -15,8 +15,9 @@ def xmltree_equal_elements(e1, e2):
         res = False
     _strip = lambda v: (v or '').strip() # deal with None
     if _strip(e1.text) != _strip(e2.text):
-        print "text: %r != %r" % (e1.text, e2.text)
-        res = False
+        if not _equal_quantity(e1.text, e2.text):
+            print "text: %r != %r" % (e1.text, e2.text)
+            res = False
     if _strip(e1.tail) != _strip(e2.tail):
         print "tail: %r != %r" % (e1.tail, e2.tail)
         res = False
@@ -31,6 +32,35 @@ def xmltree_equal_elements(e1, e2):
             res = False
     return res
 
+
+from pyre.units import parser
+unitparser = parser()
+import numpy as np
+def _equal_quantity(t1, t2):
+    """if t1 and t2 are texts that can be parsed by pyre.units such as '1*cm",
+    check if they are equal or close
+    """
+    try:
+        q1 = unitparser.parse(t1)
+        q2 = unitparser.parse(t2)
+    except:
+        return False
+    try:
+        equal = q1==q2
+        if equal: return True
+    except:
+        pass
+    if q1.derivation!=q2.derivation: return False
+    return np.isclose(q1.value, q2.value)
+
+def test_equal_quantity():
+    assert _equal_quantity('1', '1.')
+    assert not _equal_quantity('a', 'b')
+    assert not _equal_quantity('1', 'a')
+    assert not _equal_quantity('1*m', '1*second')
+    assert not _equal_quantity('1.1*deg', '1.1*radian')
+    assert _equal_quantity('1.1*deg', '1.1*deg')
+    return
 
 def load_xmltree_root(path):
     import xml.etree.ElementTree as ET
