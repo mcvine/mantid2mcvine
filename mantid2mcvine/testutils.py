@@ -45,13 +45,10 @@ def _equal_quantity(t1, t2):
         q2 = unitparser.parse(t2)
     except:
         return False
-    try:
-        equal = q1==q2
-        if equal: return True
-    except:
-        pass
-    if q1.derivation!=q2.derivation: return False
-    return np.isclose(q1.value, q2.value)
+    if hasattr(q1, 'derivation') and hasattr(q2, 'derivation'):
+        if q1.derivation!=q2.derivation: return False
+        return np.isclose(q1.value, q2.value)
+    return q1==q2
 
 def test_equal_quantity():
     assert _equal_quantity('1', '1.')
