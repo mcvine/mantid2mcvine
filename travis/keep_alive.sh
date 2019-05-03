@@ -2,6 +2,7 @@
 
 MY_BUILD_CMD=$1
 MY_WORKDIR=$2
+LINES=$3
 
 # Abort on Error
 set -e
@@ -12,8 +13,8 @@ export BUILD_OUTPUT=$MY_WORKDIR/build.out
 touch $BUILD_OUTPUT
 
 dump_output() {
-    echo Tailing the last 500 lines of output:
-    tail -500 $BUILD_OUTPUT
+    echo Tailing the last $LINES lines of output:
+    tail -$LINES $BUILD_OUTPUT
 }
 error_handler() {
     echo ERROR: An error was encountered with the build.
