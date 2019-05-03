@@ -20,11 +20,11 @@ before_install:
   - git clone https://github.com/yxqd/dotmantid ~/.mantid
 
 install:
-  - ./travis/keep_alive.sh ./travis/install.sh .
+  - ./travis/keep_alive.sh ./travis/install.sh . 200
   - source activate testenv
   
 script:
-  - ./travis/keep_alive.sh "py.test --cov=mantid2mcvine tests" .
+  - ./travis/keep_alive.sh "py.test --cov=mantid2mcvine tests" . 200
 
 after_success:
   - coveralls
