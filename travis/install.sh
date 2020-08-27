@@ -14,7 +14,7 @@ source activate testenv
 # conda install mpich
 # conda install -c mcvine/label/unstable mantid-framework=3.13 muparser=2.2.5=0
 # conda install mantid-framework=4
-conda install -c pytest pytest-cov coveralls mpich mcvine/label/unstable mcvine-core mantid-framework=4
+conda install -c mcvine/label/unstable pytest pytest-cov coveralls mpich mcvine-core mantid-framework=4
 python -c "import matplotlib; import mantid"
 mcvine
 python setup.py install
