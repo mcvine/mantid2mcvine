@@ -21,7 +21,7 @@ before_install:
   - git clone https://github.com/yxqd/dotmantid ~/.mantid
 
 install:
-  - ./travis/keep_alive.sh ./travis/install.sh . 200
+  - ./travis/install.sh
   - source activate testenv
   
 script:
