@@ -30,7 +30,7 @@ class Event2Nxs:
     def run(self, eventfile, nxsfile, tofbinsize=0.1):
         """tofbinsize: in microsecond
         """
-        print "Converting %s to %s" % (eventfile, nxsfile)
+        print("Converting %s to %s" % (eventfile, nxsfile))
         from mccomponents.detector.event_utils import readEvents
         events = readEvents(eventfile)
         self.write(events, tofbinsize, nxsfile)

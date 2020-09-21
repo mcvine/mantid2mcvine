@@ -12,6 +12,7 @@ This inherits from Bootstrap_mantid_idf.
 import numpy as np, copy
 
 from .Bootstrap_mantid_idf import InstrumentFactory as base, getPositionAndOrientation, units, shapes, PackInfo, TubeInfo
+from functools import reduce
 units_parser = units.parser()
 units_parser.context.update(metre=units.length.meter)
 
@@ -70,10 +71,10 @@ class InstrumentFactory(base):
             # {'pixel': {'radius': 12.7, 'height': 11.719}}
             tubeinfo = TubeInfo()
             tubeinfo.typename = tubetypename
-            tubeinfo.pressure = units_parser.parse(tubes.values()[0]['tube_pressure'])/units.pressure.atm
-            tubeinfo.radius = pixels.values()[0]['radius']
+            tubeinfo.pressure = units_parser.parse(list(tubes.values())[0]['tube_pressure'])/units.pressure.atm
+            tubeinfo.radius = list(pixels.values())[0]['radius']
             # gap is used to compute pack size only
-            tubeinfo.gap = units_parser.parse(tubes.values()[0]['tube_thickness'])*2/units.length.mm
+            tubeinfo.gap = units_parser.parse(list(tubes.values())[0]['tube_thickness'])*2/units.length.mm
             tubeinfo.length = tubelength
             tubeinfo.npixels = npixels
             # list of tubes
@@ -159,7 +160,7 @@ def getTubePositions(pack_type):
     def _get(loc, a):
         try: return loc[a]
         except KeyError: return 0.
-    xyz = [map(float, (_get(loc, 'x'), _get(loc, 'y'), _get(loc, 'z'))) for loc in locations]
+    xyz = [list(map(float, (_get(loc, 'x'), _get(loc, 'y'), _get(loc, 'z')))) for loc in locations]
     return np.array(xyz)
 
 
