@@ -11,21 +11,21 @@ def xmltree_equal_elements(e1, e2):
     """
     res = True
     if e1.tag != e2.tag:
-        print "tag: %r != %r" % (e1.tag, e2.tag)
+        print("tag: %r != %r" % (e1.tag, e2.tag))
         res = False
     _strip = lambda v: (v or '').strip() # deal with None
     if _strip(e1.text) != _strip(e2.text):
         if not _equal_quantity(e1.text, e2.text):
-            print "text: %r != %r" % (e1.text, e2.text)
+            print("text: %r != %r" % (e1.text, e2.text))
             res = False
     if _strip(e1.tail) != _strip(e2.tail):
-        print "tail: %r != %r" % (e1.tail, e2.tail)
+        print("tail: %r != %r" % (e1.tail, e2.tail))
         res = False
     if e1.attrib != e2.attrib:
-        print "attrib: %r != %r" % (e1.attrib, e2.attrib)
+        print("attrib: %r != %r" % (e1.attrib, e2.attrib))
         res = False
     if len(e1) != len(e2):
-        print "len: %r != %r" % (len(e1), len(e2))
+        print("len: %r != %r" % (len(e1), len(e2)))
         res = False
     for c1, c2 in zip(e1, e2):
         if not xmltree_equal_elements(c1, c2):

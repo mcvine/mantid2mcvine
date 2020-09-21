@@ -43,7 +43,9 @@ def install_mantid_xml_to_userhome(mantid_xml, beamline=99, mantid_instr_dir=Non
         mk_bkup(fac_xml)
         # add entry
         arcs = sns.find("instrument[@name='ARCS']")
-        t = arcs.copy()
+        import copy
+        # t = arcs.copy()
+        t = copy.deepcopy(arcs)
         t.attrib['name'] = instrument_name
         t.attrib['beamline'] = '%s' % beamline
         sns.append(t)

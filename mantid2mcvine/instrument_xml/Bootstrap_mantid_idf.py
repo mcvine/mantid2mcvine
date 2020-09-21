@@ -25,6 +25,7 @@ XXX: coordinate system is now hard coded.
 import numpy as np
 
 from .BootstrapBase import InstrumentFactory as base, units, shapes, PackInfo, TubeInfo
+from functools import reduce
 
 # example tube_info
 class TubeInfo:
@@ -86,7 +87,7 @@ def getPositionAndOrientation(component):
     # rots.insert(0, ([0.,0.,1.], 180.))
     m = toMatrix(rots)
     angles = mr.toAngles(m)
-    print "Position: %s, Rotation: inputs=%s, m=%s" % (pos, rots, m)
+    print("Position: %s, Rotation: inputs=%s, m=%s" % (pos, rots, m))
     return pos,angles
 
 
@@ -100,7 +101,7 @@ def toMatrix(rots):
 
 def getRotation(rot):
     axis = rot['axis-x'], rot['axis-y'], rot['axis-z']
-    axis = map(float, axis)
+    axis = list(map(float, axis))
     angle = float(rot['val'])
     return axis, angle
 

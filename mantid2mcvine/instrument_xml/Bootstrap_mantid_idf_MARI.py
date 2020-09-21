@@ -13,6 +13,7 @@ import numpy as np, copy, warnings
 
 from .Bootstrap_mantid_idf import InstrumentFactory as base, getPositionAndOrientation, units, PackInfo, TubeInfo
 from instrument.geometry import shapes, operations
+from functools import reduce
 units_parser = units.parser()
 units_parser.context.update(metre=units.length.meter)
 

@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
         )
         expected = os.path.join(here, 'expected/MARI_mcvine.xml')
         from mantid2mcvine.testutils import xml_equal
-        self.assert_(xml_equal(out, expected))
+        self.assertTrue(xml_equal(out, expected))
         return
 
     def test(self):
