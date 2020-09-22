@@ -22,14 +22,21 @@ before_install:
   - git clone https://github.com/yxqd/dotmantid ~/.mantid
 
 install:
+  - export GIT_VER=`git describe --tags`
+  - export VERSION=`git describe --tags | cut -d '-' -f1`
+  - export _CONDA_PKG_VER_=${VERSION}unstable # conda pkg version to build
+  - echo conda pkg version:${_CONDA_PKG_VER_}      git version:${GIT_VER}
   - ./travis/install.sh
   - source activate testenv
   
 script:
-  - ./travis/keep_alive.sh "py.test --cov=mantid2mcvine tests" . 200
+  - py.test -s --cov=mantid2mcvine tests
 
 after_success:
   - coveralls
+  - source deactivate testenv
+  - echo $TRAVIS_PYTHON_VERSION
+  - if [ ${TRAVIS_PYTHON_VERSION:0:3} == "3.6" ]; then ./travis/create_conda_pkg.sh; fi
 
 notifications:
   email:
