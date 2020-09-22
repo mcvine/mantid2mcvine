@@ -35,7 +35,8 @@ script:
 after_success:
   - coveralls
   - source deactivate testenv
-  - if [ ${TRAVIS_PYTHON_VERSION} == "3.6" ]; then ./travis/create_conda_pkg.sh; fi
+  - echo $TRAVIS_PYTHON_VERSION
+  - if [ ${TRAVIS_PYTHON_VERSION:0:3} == "3.6" ]; then ./travis/create_conda_pkg.sh; fi
 
 notifications:
   email:
