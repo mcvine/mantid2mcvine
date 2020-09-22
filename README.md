@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mcvine/mantid2mcvine.svg?branch=master)](https://travis-ci.org/mcvine/mantid2mcvine)
+[![Build Status](https://travis-ci.com/mcvine/mantid2mcvine.svg?branch=master)](https://travis-ci.com/mcvine/mantid2mcvine)
 [![Coverage Status](https://coveralls.io/repos/github/mcvine/mantid2mcvine/badge.svg)](https://coveralls.io/github/mcvine/mantid2mcvine)
 
 # Convert Mantid IDF to MCViNE instrument xml
