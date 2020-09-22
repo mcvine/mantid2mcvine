@@ -22,6 +22,10 @@ before_install:
   - git clone https://github.com/yxqd/dotmantid ~/.mantid
 
 install:
+  - export GIT_VER=`git describe --tags`
+  - export VERSION=`git describe --tags | cut -d '-' -f1`
+  - export _CONDA_PKG_VER_=${VERSION}unstable # conda pkg version to build
+  - echo conda pkg version:${_CONDA_PKG_VER_}      git version:${GIT_VER}
   - ./travis/install.sh
   - source activate testenv
   
@@ -30,6 +34,8 @@ script:
 
 after_success:
   - coveralls
+  - source deactivate testenv
+  - ./travis/create_conda_pkg.sh
 
 notifications:
   email:
