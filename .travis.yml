@@ -26,7 +26,7 @@ install:
   - source activate testenv
   
 script:
-  - ./travis/keep_alive.sh "py.test --cov=mantid2mcvine tests" . 200
+  - py.test -s --cov=mantid2mcvine tests
 
 after_success:
   - coveralls
