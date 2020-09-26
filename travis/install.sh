@@ -11,7 +11,7 @@ conda config --add channels mcvine
 conda config --add channels mcvine/label/unstable
 conda create -n testenv python=$TRAVIS_PYTHON_VERSION
 source activate testenv
-conda install -c pytest pytest-cov coveralls mpich mcvine-core mantid-framework=4
+conda install pytest pytest-cov coveralls mpich mcvine-core mantid-framework=4
 python -c "import matplotlib; import mantid"
 mcvine
 python setup.py install
