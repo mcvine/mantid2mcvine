@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 conda install -n root conda-build anaconda-client
 conda config --set anaconda_upload no
 
