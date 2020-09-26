@@ -12,8 +12,8 @@ requirements:
 
   run:
     - python
-    - mcvine-core
-    - mantid-framework      4.0.*
+    - mcvine-core           >=1.4
+    - mantid-framework      4.0.0
 
 build:
   noarch: python
