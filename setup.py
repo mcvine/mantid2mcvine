@@ -13,8 +13,9 @@ setup(
     name = "mantid2mcvine",
     version = version_ns['__version__'],
     packages = find_packages(".", exclude=['tests', 'notebooks', 'demo']),
-    package_dir = {'': "."},
-    data_files = [('mantid2mcvine/nxs', ['mantid2mcvine/nxs/start.nxs'])],
+    # package_dir = {'': "."}, # this seems to be no good for including data files
+    # this is replaced by MANIFEST.in
+    # data_files = [('mantid2mcvine/nxs', ['mantid2mcvine/nxs/start.nxs'])],
     test_suite = 'tests',
     install_requires = [
     ],
@@ -25,6 +26,7 @@ setup(
     license = 'BSD',
     keywords = "instrument, neutron",
     url = "https://github.com/mcvine/mantid2mcvine",
+    include_package_data = True,
     # download_url = '',
 )
 
