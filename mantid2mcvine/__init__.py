@@ -66,9 +66,9 @@ class InstrumentModel:
         """
         self.instrument_name = instrument_name
         self.beamline = beamline
-        self.mantid_idf = mantid_idf
-        self.mcvine_idf = mcvine_idf
-        self.template_nxs = template_nxs
+        self.mantid_idf = os.path.abspath(mantid_idf)
+        self.mcvine_idf = os.path.abspath(mcvine_idf)
+        self.template_nxs = os.path.abspath(template_nxs)
         self.detsys_shape = detsys_shape
         self.nmonitors = nmonitors
         self.tofbinsize = tofbinsize
@@ -81,7 +81,7 @@ class InstrumentModel:
         if nbanks is not None and ntotpixels is None:
             self.ntotpixels = nbanks*ntubesperpack*npixelspertube
         return
-    
+
     def convert(self):
         # print ntotpixels
         # create mcvine idf
@@ -110,7 +110,6 @@ class InstrumentModel:
         template.create(self.mantid_idf, ntotpixels, self.template_nxs, workdir='template_nxs_work')
         return
 
-
     def mantid_install(self, target=None):
         """install mantid IDF and adjust facilities.xml
 
@@ -125,7 +124,6 @@ class InstrumentModel:
         instrument_xml.install_mantid_xml_to_userhome(self.mantid_idf, beamline=self.beamline, mantid_instr_dir=target)
         return
 
-    
     def neutrons2events(self, scattered_neutrons, nodes=10, workdir='n2e', **kwds):
         from .nxs import Neutrons2Events
         n2e = Neutrons2Events.Neutrons2Events(
@@ -133,7 +131,6 @@ class InstrumentModel:
                 tofbinsize=self.tofbinsize)
         n2e.run(scattered_neutrons, workdir, nodes, **kwds)
         return os.path.join(workdir, 'out', 'events.dat')
-
 
     def events2nxs(self, events_dat, sim_nxs):
         from .nxs import Events2Nxs
@@ -143,7 +140,6 @@ class InstrumentModel:
             nxs_template=self.template_nxs)
         e2nxs.run(eventfile=events_dat, nxsfile=sim_nxs, tofbinsize=self.tofbinsize)
         return sim_nxs
-
 
     def todict(self):
         keys = "instrument_name beamline mantid_idf mcvine_idf template_nxs ntotpixels"
