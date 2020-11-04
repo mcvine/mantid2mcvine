@@ -50,10 +50,10 @@ class Event2Nxs:
         events.sort(order='pixelID')
         # !!!!! spectrum number for pixel #0 is 1+nmonitors.
         # !!!!! You can see this by Right click nxs file, show detectors.
-        pixelids = events['pixelID'] + self.nmonitors + 1 
+        pixelids = events['pixelID'] + self.nmonitors + 1
         hist, bin_edges = np.histogram(
-            pixelids, 
-            bins=np.arange(-0.5, self.npixels+1.5), 
+            pixelids,
+            bins=np.arange(self.nmonitors-0.5, self.nmonitors+self.npixels+1.5),
             )
         indices = np.cumsum(hist)
         nevents = len(events)
