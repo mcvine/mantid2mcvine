@@ -1,0 +1,52 @@
+name: CI
+
+env: {}
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]
+        python-version: ["3.6", "2.7"]   
+    steps:
+      - name: install glut
+        run: sudo apt-get update && sudo apt-get install -y procps freeglut3-dev libglu1-mesa unzip
+        
+      - name: Check out source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # setup conda
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          activate-environment: testenv
+          python-version: {{ matrix.python-version }}
+          channels: conda-forge,diffpy,mantid,mcvine,mcvine/label/unstable
+      
+      # install deps and build
+      - name: install / build
+        shell: pwsh
+        run: |
+          conda install pytest pytest-cov coveralls mpich mcvine-core mantid-framework=4
+          python -c "import matplotlib; import mantid"
+          mcvine
+          python setup.py install
+
+      # test
+      - name: test
+        shell: pwsh
+        run: |
+          py.test -s --cov=mantid2mcvine tests
+          coveralls
