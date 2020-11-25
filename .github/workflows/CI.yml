@@ -49,4 +49,8 @@ jobs:
         shell: pwsh
         run: |
           py.test -s --cov=mantid2mcvine tests
-          coveralls
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
