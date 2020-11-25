@@ -58,3 +58,17 @@ jobs:
         run: coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: conda build and upload
+        shell: bash
+        run: |
+          export GIT_VER=`git describe --tags`
+          export VERSION=`git describe --tags | cut -d '-' -f1 | cut -c2-`
+          export VERSION_NEXT=`echo ${VERSION}| awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$(NF-1)++; $NF=sprintf("%0*d", length($NF), ($NF+1)%(10^length($NF))); print}'`
+          echo ${VERSION} ${VERSION_NEXT}
+          export _CONDA_PKG_VER_=${VERSION_NEXT}.dev
+          echo conda pkg version:${_CONDA_PKG_VER_}      git version:${GIT_VER}
+          ./travis/create_conda_pkg.sh
+        env:
+          TRAVIS_PYTHON_VERSION: ${{ matrix.python-version }}
+          CONDA_UPLOAD_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
