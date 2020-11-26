@@ -15,4 +15,6 @@ cat meta.yaml
 conda build --python=$TRAVIS_PYTHON_VERSION .
 
 # upload
-anaconda -t $CONDA_UPLOAD_TOKEN upload --force /home/travis/mc/conda-bld/noarch/mantid2mcvine-$_CONDA_PKG_VER_-*.tar.bz2 --label unstable
+CONDA_ROOT_PREFIX=$(realpath $(dirname `which conda`)/..)
+anaconda -t $CONDA_UPLOAD_TOKEN upload --force --label unstable \
+         $CONDA_ROOT_PREFIX/conda-bld/noarch/mantid2mcvine-$_CONDA_PKG_VER_-*.tar.bz2
