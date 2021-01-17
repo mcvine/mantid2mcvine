@@ -1,3 +1,4 @@
+[![Build Status](https://github.com/mcvine/mantid2mcvine/workflows/CI/badge.svg)](https://github.com/mcvine/mantid2mcvine/actions?query=workflow%3ACI)
 [![Build Status](https://travis-ci.com/mcvine/mantid2mcvine.svg?branch=master)](https://travis-ci.com/mcvine/mantid2mcvine)
 [![Coverage Status](https://coveralls.io/repos/github/mcvine/mantid2mcvine/badge.svg)](https://coveralls.io/github/mcvine/mantid2mcvine)
 
