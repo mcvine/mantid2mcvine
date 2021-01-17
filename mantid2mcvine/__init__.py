@@ -107,7 +107,11 @@ class InstrumentModel:
             self.nmonitors = nmonitors
         # create template nxs file
         from .nxs import template
-        template.create(self.mantid_idf, ntotpixels, self.template_nxs, workdir='template_nxs_work')
+        template.create(
+            self.mantid_idf, ntotpixels, self.template_nxs,
+            workdir='template_nxs_work',
+            nmonitors = self.nmonitors
+        )
         return
 
     def mantid_install(self, target=None):
