@@ -53,7 +53,7 @@ class Event2Nxs:
         pixelids = events['pixelID'] + self.nmonitors + 1
         hist, bin_edges = np.histogram(
             pixelids,
-            bins=np.arange(-0.5, self.monitors+self.npixels+1.5),
+            bins=np.arange(-0.5, self.nmonitors+self.npixels+1.5),
             )
         indices = np.cumsum(hist)
         nevents = len(events)
