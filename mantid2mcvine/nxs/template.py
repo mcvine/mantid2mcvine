@@ -1,7 +1,24 @@
 
 import os, shutil, numpy as np, h5py
 
-def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667.):
+def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmonitors=0):
+    """create template nexus file.
+
+    Parameters
+    ----------
+    idfpath : str
+        path to instrument definition xml file
+    ntotpixels : int
+        total number of pixels
+    outpath : str
+        output template nexus file path
+    workdir : str
+        working dir to save intermediate files
+    pulse_time_end : float
+        end time for one pulse
+    nmonitors : int
+        number of monitors
+    """
     thisdir = os.path.dirname(__file__)
     start = os.path.join(thisdir, 'start.nxs')
     # step 1
@@ -12,9 +29,9 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667.):
     with h5py.File(step1) as f:
         ws = f['mantid_workspace_1']
         ew = ws['event_workspace']
-        ew['axis1'][:] = [-1, pulse_time_end] # what is this?
+        ew['axis1'][:] = [-1, pulse_time_end] # TOF axis
         # del ew['axis2']
-        ew['axis2'] = np.arange(1., ntotpixels)
+        ew['axis2'] = np.arange(1., ntotpixels+nmonitors)  # monitors then detector pixels
         attrs = ew['axis2'].attrs
         attrs['caption'] = 'Spectrum'
         attrs['label'] = ''
@@ -27,9 +44,9 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667.):
         # print saved.dtype
         # print ew['indices'].shape
         del ew['indices']
-        #
-        new_indices = np.zeros(ntotpixels+1, dtype='int64')
-        new_indices[:saved.size] = saved[:new_indices.size]
+        # monitors then detector pixels
+        new_indices = np.zeros(ntotpixels+nmonitors+1, dtype='int64')
+        new_indices[:saved.size] = saved[:new_indices.size] # why?
         ew['indices'] = new_indices
         attrs = ew['indices'].attrs
         for k, v in saved_attrs.items():
