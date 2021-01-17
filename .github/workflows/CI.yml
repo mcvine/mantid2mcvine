@@ -42,7 +42,7 @@ jobs:
       - name: install / build
         shell: pwsh
         run: |
-          conda install pytest pytest-cov coveralls mpich mcvine-core mantid-framework=4
+          conda install pytest pytest-cov coveralls openmpi mcvine-core mantid-framework=4
           python -c "import matplotlib; import mantid"
           mcvine
           python setup.py install
