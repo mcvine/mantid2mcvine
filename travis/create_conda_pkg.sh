@@ -5,7 +5,9 @@ set -x
 
 conda config --show channels
 echo "before installing conda-build"
-conda install -n root conda-build
+which conda
+which mamba
+mamba install -n root conda-build
 echo "create_conda_pkg.sh done"
 #conda install anaconda-client
 #which anaconda
