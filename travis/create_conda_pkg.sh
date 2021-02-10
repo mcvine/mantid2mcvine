@@ -6,8 +6,7 @@ set -x
 conda config --show channels
 echo "before installing conda-build"
 which conda
-which mamba
-mamba install -n root conda-build
+conda install -n root conda-build
 conda install anaconda-client
 which anaconda
 conda config --set anaconda_upload no
