@@ -3,10 +3,10 @@
 set -e
 set -x
 
+conda config --show channels
 conda install -n root conda-build
 conda install anaconda-client
 which anaconda
-conda config --show channels
 conda config --set anaconda_upload no
 
 # build
