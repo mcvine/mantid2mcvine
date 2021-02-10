@@ -3,6 +3,9 @@
 set -e
 set -x
 
+conda config --show channels
+echo "before installing conda-build"
+which conda
 conda install -n root conda-build
 conda install anaconda-client
 which anaconda

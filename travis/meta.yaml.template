@@ -13,7 +13,7 @@ requirements:
   run:
     - python
     - mcvine-core           >=1.4
-    - mantid-framework      4.0.0
+    - mantid-framework      5
 
 build:
   noarch: python

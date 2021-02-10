@@ -26,7 +26,7 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmo
         os.makedirs(workdir)
     step1 = os.path.join(workdir, 'step1.nxs')
     shutil.copyfile(start, step1)
-    with h5py.File(step1) as f:
+    with h5py.File(step1, 'a') as f:
         ws = f['mantid_workspace_1']
         ew = ws['event_workspace']
         ew['axis1'][:] = [-1, pulse_time_end] # TOF axis
@@ -64,7 +64,7 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmo
     # step 3
     step3 = os.path.join(workdir, 'step3.nxs')
     shutil.copyfile(step2, step3)
-    with h5py.File(step3) as f:
+    with h5py.File(step3, 'a') as f:
         ew = f['mantid_workspace_1']['event_workspace']
         del ew['indices'], ew['pulsetime'], ew['tof']
         f.close()
