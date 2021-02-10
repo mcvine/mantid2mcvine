@@ -6,5 +6,4 @@ VERSION_NEXT=`echo ${VERSION}| awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(len
 echo ${VERSION} ${VERSION_NEXT}
 export _CONDA_PKG_VER_=${VERSION_NEXT}.dev
 echo conda pkg version:${_CONDA_PKG_VER_}    git version:${GIT_VER}
-conda config --show channels
 ./travis/create_conda_pkg.sh
