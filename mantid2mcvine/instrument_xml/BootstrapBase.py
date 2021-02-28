@@ -16,6 +16,9 @@ This is a base class to be extended.
 
 import numpy as np
 from instrument.factories.CNCS.BootstrapBase import InstrumentFactory as base, PackInfo, units, elements, geometers, shapes, packType, pixelSolidAngle, m, mm, atm
+from mcni.units import angle
+degree = angle.degree
+degree_number = float(degree)
 
 class PackInfo:
 
@@ -234,7 +237,12 @@ all physical parameters must have units attached.
                     tubename, tube.guid(), guid = instrument.getUniqueID())
                 tube = copy
             pack.addElement(tube)
-            packGeometer.register( tube, tubeinfo.position, tubeinfo.orientation)
+            try:
+                pos = [round(x, 8) for x in tubeinfo.position]
+            except TypeError:
+                pos = [round(x/m, 8)*m for x in tubeinfo.position]
+            ori = tubeinfo.orientation
+            packGeometer.register( tube, pos, ori)
             npixels += tubeinfo.npixels
             continue
         pack.npixels = npixels
