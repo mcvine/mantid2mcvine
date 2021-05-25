@@ -19,7 +19,9 @@ def install_mantid_xml_to_userhome(mantid_xml, beamline=99, mantid_instr_dir=Non
     instrument_name = root.attrib['name']
     # Facilities.xml
     mantid_instr_dir = mantid_instr_dir or os.path.expanduser("~/.mantid/instrument")
-    assert os.path.exists(mantid_instr_dir)
+    if not os.path.exists(mantid_instr_dir):
+        msg = "Mantid has to be installed and run for at least one time for mantid2mcvine to work"
+        raise RuntimeError(msg)
     # check IDF file
     dest = os.path.join(mantid_instr_dir, fn_base)
     if os.path.exists(dest):
