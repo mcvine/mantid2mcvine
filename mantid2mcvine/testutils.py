@@ -21,7 +21,7 @@ def xmltree_equal_elements(e1, e2):
     if _strip(e1.tail) != _strip(e2.tail):
         print("tail: %r != %r" % (e1.tail, e2.tail))
         res = False
-    if e1.attrib != e2.attrib:
+    if e1.attrib != e2.attrib and not _equal_dict(e1.attrib, e2.attrib):
         print("attrib: %r != %r" % (e1.attrib, e2.attrib))
         res = False
     if len(e1) != len(e2):
@@ -32,6 +32,32 @@ def xmltree_equal_elements(e1, e2):
             res = False
     return res
 
+
+def _equal_dict(d1, d2):
+    if not sorted(d1.keys())==sorted(d2.keys()): return False
+    for k in d1.keys():
+        v1 = d1[k]
+        v2 = d2[k]
+        if v1==v2: continue
+        try:
+            v1 = unitparser.parse(v1)
+            v2 = unitparser.parse(v2)
+        except:
+            return False
+        try:
+            r = _equal_quantity_list(v1, v2)
+            if not r:
+                return False
+            continue
+        except:
+            if not _equal_quantity(v1, v2): return False
+    return True
+
+def _equal_quantity_list(l1, l2):
+    if len(l1)!=len(l2): return False
+    for v1, v2 in zip(l1, l2):
+        if not _equal_quantity(v1, v2): return False
+    return True
 
 from pyre.units import parser
 unitparser = parser()
