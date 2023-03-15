@@ -1,4 +1,7 @@
-import os, shutil, numpy as np, h5py
+import numpy as np
+import h5py
+import os
+import shutil
 
 
 def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmonitors=0, instrument_template=None):
@@ -36,14 +39,14 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmo
     with h5py.File(step1, 'a') as f:
         ws = f['mantid_workspace_1']
         ew = ws['event_workspace']
-        ew['axis1'][:] = [-1, pulse_time_end] # TOF axis
+        ew['axis1'][:] = [-1, pulse_time_end]  # TOF axis
         # del ew['axis2']
         ew['axis2'] = np.arange(1., ntotpixels+nmonitors)  # monitors then detector pixels
         attrs = ew['axis2'].attrs
         attrs['caption'] = 'Spectrum'
         attrs['label'] = ''
         attrs['units'] = 'spectraNumber'
-        # 
+
         saved_attrs = dict(ew['indices'].attrs)
         # print saved_attrs
         saved = ew['indices'][:].copy()
@@ -53,12 +56,11 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmo
         del ew['indices']
         # monitors then detector pixels
         new_indices = np.zeros(ntotpixels+nmonitors+1, dtype='int64')
-        new_indices[:saved.size] = saved[:new_indices.size] # why?
+        new_indices[:saved.size] = saved[:new_indices.size]  # why?
         ew['indices'] = new_indices
         attrs = ew['indices'].attrs
         for k, v in saved_attrs.items():
-            attrs[k]=v
-        #
+            attrs[k] = v
         f.close()
         pass
     # step 2
@@ -66,7 +68,7 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmo
     ws = msa.Load(os.path.abspath(step1))
     step2 = os.path.join(workdir, 'step2.nxs')
     msa.LoadInstrument(Workspace=ws, Filename=os.path.abspath(idfpath), RewriteSpectraMap=True)
-    dettable = msa.PreprocessDetectorsToMD(ws)
+    msa.PreprocessDetectorsToMD(ws, OutputWorkspace="dettable")
     msa.SaveNexusProcessed(ws, Filename=os.path.abspath(step2))
     # step 3
     step3 = os.path.join(workdir, 'step3.nxs')
