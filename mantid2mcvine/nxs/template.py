@@ -1,7 +1,7 @@
-
 import os, shutil, numpy as np, h5py
 
-def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmonitors=0):
+
+def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmonitors=0, instrument_template=None):
     """create template nexus file.
 
     Parameters
@@ -18,9 +18,16 @@ def create(idfpath, ntotpixels, outpath, workdir='.', pulse_time_end=16667., nmo
         end time for one pulse
     nmonitors : int
         number of monitors
+    instrument_template : str, pathlib.Path
+        absolute path to a processed event nexus file to serve as initial Nexus file.
+        If empty, file `start.nxs` is used.
     """
-    thisdir = os.path.dirname(__file__)
-    start = os.path.join(thisdir, 'start.nxs')
+    # Select the starting instrument configuration
+    if bool(instrument_template):
+        start = str(instrument_template)
+    else:
+        thisdir = os.path.dirname(__file__)
+        start = os.path.join(thisdir, 'start.nxs')
     # step 1
     if not os.path.exists(workdir):
         os.makedirs(workdir)
