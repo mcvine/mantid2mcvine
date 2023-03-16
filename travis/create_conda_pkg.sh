@@ -13,7 +13,7 @@ conda config --set anaconda_upload no
 
 # build
 cd travis
-sed -e "s|XXXVERSIONXXX|$_CONDA_PKG_VER_|g" meta.yaml.template | sed -e "s|XXXGIT_REVXXX|$GIT_REV|g" > meta.yaml
+sed -e "s|XXXVERSIONXXX|$_CONDA_PKG_VER_|g" meta.yaml.template | sed -e "s|XXXGIT_REVXXX|${GIT_REV}|g" > meta.yaml
 cat meta.yaml
 conda build --python=$TRAVIS_PYTHON_VERSION .
 
