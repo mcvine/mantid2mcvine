@@ -93,7 +93,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="4" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="4" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -132,7 +132,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="7" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="7" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -270,14 +270,14 @@
                             <axis beam="0.0" transversal="0.0" vertical="1.0" />
                         </rotation>
                     </intersection>
-                    <vector beam="0.*m" transversal="0.*m" vertical="-6.93889e-18*m" />
+                    <vector beam="0.*m" transversal="0.*m" vertical="0*m" />
                 </translation>
                 <angle>135.0*deg</angle>
                 <axis beam="1.0" transversal="0.0" vertical="0.0" />
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="33" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="33" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -316,7 +316,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="36" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="36" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -445,7 +445,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="54" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="54" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -484,7 +484,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="57" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="57" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -606,14 +606,14 @@
                             <axis beam="0.0" transversal="0.0" vertical="1.0" />
                         </rotation>
                     </intersection>
-                    <vector beam="0.*m" transversal="0.*m" vertical="6.93889e-18*m" />
+                    <vector beam="0.*m" transversal="0.*m" vertical="0*m" />
                 </translation>
                 <angle>-135.0*deg</angle>
                 <axis beam="1.0" transversal="0.0" vertical="0.0" />
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="75" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="75" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -652,7 +652,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="78" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="78" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -781,7 +781,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="96" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="96" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -820,7 +820,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="99" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="99" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -942,14 +942,14 @@
                             <axis beam="0.0" transversal="0.0" vertical="1.0" />
                         </rotation>
                     </intersection>
-                    <vector beam="0.*m" transversal="0.*m" vertical="6.93889e-18*m" />
+                    <vector beam="0.*m" transversal="0.*m" vertical="0*m" />
                 </translation>
                 <angle>-45.0*deg</angle>
                 <axis beam="1.0" transversal="0.0" vertical="0.0" />
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="117" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="117" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -988,7 +988,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="120" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="120" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1117,7 +1117,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="138" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="138" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1156,7 +1156,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="141" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="141" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1278,14 +1278,14 @@
                             <axis beam="0.0" transversal="0.0" vertical="1.0" />
                         </rotation>
                     </intersection>
-                    <vector beam="0.*m" transversal="0.*m" vertical="-6.93889e-18*m" />
+                    <vector beam="0.*m" transversal="0.*m" vertical="0*m" />
                 </translation>
                 <angle>45.0*deg</angle>
                 <axis beam="1.0" transversal="0.0" vertical="0.0" />
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="159" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="159" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1324,7 +1324,7 @@
             </Detector>
 
 
-            <Detector name="det1" guid="162" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det1" guid="162" id="1" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1453,7 +1453,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="180" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="180" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1625,7 +1625,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="220" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="220" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1783,7 +1783,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="253" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="253" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -1945,7 +1945,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="288" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="288" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -2107,7 +2107,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="323" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="323" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -2269,7 +2269,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="358" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="358" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -2431,7 +2431,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="393" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="393" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -2593,7 +2593,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="428" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="428" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -2755,7 +2755,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="463" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="463" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -2933,7 +2933,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="506" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="506" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -3095,7 +3095,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="541" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="541" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -3257,7 +3257,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="576" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="576" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -3419,7 +3419,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="611" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="611" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -3581,7 +3581,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="646" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="646" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -3743,7 +3743,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="681" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="681" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -3905,7 +3905,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="716" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="716" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -4067,7 +4067,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="751" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="751" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -4239,7 +4239,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="791" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="791" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -4397,7 +4397,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="824" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="824" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -4559,7 +4559,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="859" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="859" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -4721,7 +4721,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="894" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="894" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -4883,7 +4883,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="929" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="929" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -5045,7 +5045,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="964" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="964" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder
@@ -5207,7 +5207,7 @@
             </rotation>
             </Shape>
 
-            <Detector name="det0" guid="999" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s">
+            <Detector name="det0" guid="999" id="0" pressure="1.01325e+06*m**-1*kg*s**-2" type="He3 LPSD" deadTime="1e-05*s" holdOff="1e-06*s" mcweights="0.9, 0.0, 0.1">
                 <Shape>
                 <!--
                 Cylinder

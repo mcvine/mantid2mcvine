@@ -11,7 +11,7 @@ on:
       - master
   schedule:
     - cron: "00 19 * * *"
-      
+
 jobs:
   build-and-test:
     runs-on: ${{ matrix.os }}
@@ -19,11 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.7"]
+        python-version: ["3.8"]
     steps:
       - name: install glut
         run: sudo apt-get update && sudo apt-get install -y procps freeglut3-dev libglu1-mesa unzip
-        
+
       - name: Check out source code
         uses: actions/checkout@v2
         with:
@@ -38,13 +38,14 @@ jobs:
           auto-update-conda: true
           activate-environment: testenv
           python-version: ${{ matrix.python-version }}
-          channels: mcvine/label/unstable,mcvine,mantid/label/nightly,mantid,diffpy,conda-forge
+          channels: mcvine,conda-forge
 
       # install deps and build
       - name: install / build
         shell: pwsh
         run: |
-          conda install pytest pytest-cov coveralls openmpi mcvine-core mantid-framework=5
+          conda install mamba
+          mamba install pytest pytest-cov coveralls openmpi mcvine-core mantid-framework=6
           python -c "import matplotlib; import mantid"
           mcvine
           python setup.py install
@@ -65,7 +66,8 @@ jobs:
       - name: conda build and upload
         shell: pwsh
         run: |
-          ./builders/conda_build_and_upload.sh
+          echo "skip for now"
+          # ./builders/conda_build_and_upload.sh
         env:
           TRAVIS_PYTHON_VERSION: ${{ matrix.python-version }}
           CONDA_UPLOAD_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
