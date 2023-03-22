@@ -48,7 +48,11 @@ jobs:
           mamba install pytest pytest-cov coveralls openmpi mcvine.workflow mantid-framework=6
           python -c "import matplotlib; import mantid"
           mcvine
+          # hack: remove mantid2mcvine installed by conda
+          rm -rf ${CONDA_PREFIX}/lib/python${PYTHON_VERSION}/site-packages/mantid2mcvine*
           python setup.py install
+        env:
+          PYTHON_VERSION: ${{ matrix.python-version }}
 
       # test
       - name: test
