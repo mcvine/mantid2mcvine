@@ -27,7 +27,7 @@ def powder_sim(instrument_model, out_nxs):
         # run beam sim
         beamdir = os.path.join(workdir, 'mysim', 'beam')
         with chdir(beamdir):
-            cmd = "mcvine instruments arcs beam -E=70 --ncount=1e6 --nodes=2"
+            cmd = "mcvine instruments arcs beam -E=70 --ncount=3e6 --nodes=2"
             execCmd(cmd)
         # scattering
         mysim = os.path.join(workdir, 'mysim')
