@@ -50,7 +50,6 @@ jobs:
           mcvine
           # hack: remove mantid2mcvine installed by conda
           rm -rf ${CONDA_PREFIX}/lib/python${PYTHON_VERSION}/site-packages/mantid2mcvine*
-          python setup.py install
         env:
           PYTHON_VERSION: ${{ matrix.python-version }}
 
@@ -58,7 +57,7 @@ jobs:
       - name: test
         shell: pwsh
         run: |
-          py.test -s --cov=mantid2mcvine tests
+          PYTHONPATH=$PWD py.test -s --cov=mantid2mcvine tests
 
       - name: Coveralls
         shell: pwsh
