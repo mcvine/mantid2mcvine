@@ -45,25 +45,9 @@ def powder_sim(instrument_model, out_nxs):
             simnxs = instrument_model.events2nxs(events, out_nxs)
     return
 
-def reduce(path):
-    from mantid import simpleapi as msa, mtd
-    ws = msa.Load(path)
-    ws1 = msa.CropWorkspace(InputWorkspace=ws, OutputWorkspace='ws1', StartWorkspaceIndex=1)
-    msa.DgsReduction(
-        SampleInputWorkspace=ws1,
-        OutputWorkspace='reduced',
-        IncidentEnergyGuess=70., UseIncidentEnergyGuess=1,
-        EnergyTransferRange = [-70, 0.5, 65],
-        SofPhiEIsDistribution=1, IncidentBeamNormalisation='ByCurrent',
-        CorrectKiKf=1, TimeZeroGuess=20)
-    reduced = mtd['reduced']
-    from mcvine.instruments.ARCS.applications.nxs import getSqeHistogramFromMantidWS
-    getSqeHistogramFromMantidWS(reduced, 'iqe.h5', qaxis=(0, 0.05, 3.5))
-    return
-
 def test():
     # use mantid2mcvine to add virtual instrument
-    cmd = f"python {os.path.join(thisdir, 'add_demo_instrument.py')}"
+    cmd = f"python {os.path.join(thisdir, 'workflow', 'add_demo_instrument.py')}"
     execCmd(cmd)
     # load the save instrument model
     import pickle as pkl
@@ -71,8 +55,10 @@ def test():
     # run powder simulation using the instrument model
     nxsfile = os.path.abspath('out_test_workflow.nxs')
     powder_sim(instrument_model, nxsfile)
-    # reduce the simulated nxs file
-    reduce(nxsfile)
+    # reduce the simulated nxs file in a subprocess
+    reduce_script = os.path.join(thisdir, "workflow", "reduce.py")
+    cmd = f"python {reduce_script} {nxsfile}"
+    execCmd(cmd)
     return
 
 def execCmd(cmd):

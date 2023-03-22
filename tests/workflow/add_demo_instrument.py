@@ -6,7 +6,7 @@ import mantid2mcvine as m2m
 def add_demo_instrument():
     instrument_name = 'MCVINEDEMO'
     beamline = 101
-    mantid_idf = os.path.abspath(os.path.join(thisdir, '../notebooks/MCVINEDEMO_Definition.xml'))
+    mantid_idf = os.path.abspath(os.path.join(thisdir, '../../notebooks/MCVINEDEMO_Definition.xml'))
     mcvine_idf = os.path.abspath('mcvine.xml')
     template_nxs = os.path.abspath('template.nxs')
     detsys_shape = m2m.shapes.hollowCylinder(in_radius=2., out_radius=3., height=3.) # meters
