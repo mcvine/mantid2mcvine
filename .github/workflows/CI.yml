@@ -57,7 +57,9 @@ jobs:
       - name: test
         shell: pwsh
         run: |
-          PYTHONPATH=$PWD py.test -s --cov=mantid2mcvine tests
+          py.test -s --cov=mantid2mcvine tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
 
       - name: Coveralls
         shell: pwsh
