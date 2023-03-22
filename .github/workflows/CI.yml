@@ -45,16 +45,21 @@ jobs:
         shell: pwsh
         run: |
           conda install mamba
-          mamba install pytest pytest-cov coveralls openmpi mcvine-core mantid-framework=6
+          mamba install pytest pytest-cov coveralls openmpi mcvine.workflow mantid-framework=6
           python -c "import matplotlib; import mantid"
           mcvine
-          python setup.py install
+          # hack: remove mantid2mcvine installed by conda
+          rm -rf ${CONDA_PREFIX}/lib/python${PYTHON_VERSION}/site-packages/mantid2mcvine*
+        env:
+          PYTHON_VERSION: ${{ matrix.python-version }}
 
       # test
       - name: test
         shell: pwsh
         run: |
           py.test -s --cov=mantid2mcvine tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
 
       - name: Coveralls
         shell: pwsh
